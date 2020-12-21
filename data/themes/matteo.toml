@@ -1,0 +1,19 @@
+# Theme metadata
+name = "mattheo"
+# https://github.com/matteocourthoud/website
+
+# Is theme light or dark?
+light = false
+
+# Primary
+primary = "#F76497"             # pink
+
+# Menu
+menu_primary = "#F2F4F4"        # white with very slight blue tint
+menu_text = "#1C1F2B"           # black with very slight blue tint (navbar background)
+menu_text_active = "#F76497"    # pink
+menu_title = "#1C1F2B"          # black with very slight blue tint (navbar background)
+
+# Home sections
+home_section_odd = "#2D3143"    # lighter home section
+home_section_even = "#1C1F2B"   # darker home section

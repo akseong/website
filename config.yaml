@@ -1,6 +1,8 @@
 theme: starter-academic
-title: Academic
+title: arnie seong
 baseurl: ''
+relativeURLS: yes
+canonifyURLs: yes
 copyright: ''
 enableGitInfo: no
 defaultContentLanguage: en
@@ -23,6 +25,7 @@ permalinks:
   categories: /category/:slug/
   publication_types: /publication-type/:slug/
   tags: /tag/:slug/
+  post: /:year/:month/:day/:slug/
 outputs:
   home:
     - HTML
@@ -51,7 +54,7 @@ markup:
     startLevel: 2
 imaging:
   anchor: smart
-  quality: 75
+  quality: 90
   resampleFilter: lanczos
 taxonomies:
   author: authors

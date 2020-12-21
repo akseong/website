@@ -1,0 +1,19 @@
+# Theme metadata
+name = "arnie"
+# shamelessly stolen from https://github.com/matteocourthoud/website
+
+# Is theme light or dark?
+light = false
+
+# Primary
+primary = "#F76497"              # link color
+
+# Menu
+menu_primary = "#F2F4F4"
+menu_text = "#1C1F2B"
+menu_text_active = "#F76497"             
+menu_title = "#1C1F2B"           # dark with blue tint
+
+# Home sections
+home_section_odd = "#2D3143"     # lighter dark with slight blue tint
+home_section_even = "#1C1F2B"    # darker dark with slight blue tint
