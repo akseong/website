@@ -73,7 +73,7 @@ design:
     image_parallax: true
     image_position: center
     image_size: cover
-    # text_color_light: true # removes link coloring
+    text_color_light: false
   spacing:
     padding: ["50px", "0", "50px", "0"]
 ---

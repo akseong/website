@@ -39,4 +39,14 @@ design:
   #   3 = Card
   #   4 = Citation (publication only)
   view: 2
+  columns: "1"
+  background:
+    image: backgrounds/alexander-dummer_med2.jpg
+    image_darken: 0.65
+    image_parallax: true
+    image_position: center
+    image_size: cover
+    text_color_light: false
+  spacing:
+    padding: ["50px", "0px", "50px", "0px"] # top, R, bottom,L
 ---
