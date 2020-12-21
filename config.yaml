@@ -1,6 +1,6 @@
 theme: starter-academic
 title: arnie seong
-baseurl: ''
+baseurl: 'https://affectionate-pike-df06f8.netlify.app/'
 relativeURLS: yes
 canonifyURLs: yes
 copyright: ''
