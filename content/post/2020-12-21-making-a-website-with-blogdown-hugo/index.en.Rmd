@@ -1,0 +1,93 @@
+---
+title: Making a Website with Blogdown & Hugo
+author: Arnie
+date: '2020-12-21'
+slug: making-a-website-with-blogdown-hugo
+categories:
+  - tutorial
+tags:
+  - Academic
+  - blogdown
+  - HUGO
+  - R
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-12-21T11:19:19-08:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+
+
+https://arm.rbind.io/slides/blogdown.html
+https://matteocourthoud.github.io/post/website/
+
+
+
+
+# Notes:
+install latest hugo and blogdown
+```
+if (!requireNamespace("devtools")) install.packages('devtools')
+devtools::install_github('rstudio/blogdown')
+blogdown::install_hugo()
+```
+
+make a repo on Github
+make a new RStudio project (New Project --> Version control)
+```
+library(blogdown)
+new_site(theme="gcushen/hugo-academic",
+         sample=TRUE,
+         theme_example=TRUE,
+         empty_dirs = TRUE,
+         to_yaml = TRUE)
+```
+
+
+link up to netlify
+
+https://arm.rbind.io/slides/blogdown.html#21
+- drag and drop OR continuous deployment?
+
+
+
+
+
+
+delete the example posts, projects.  don't just move them elsewhere (site breaks).  WEIRD.
+
+
+
+
+
+# Customization
+- theme, font
+- avatar, icon
+- scss - header settings
+- anchor links
+- divtips
+- leaf bundle
+
+
+plot images in .Rmd: Main issue: do NOT ignore _files$ since that is where the images are kept!
+options(blogdown.new_bundle = TRUE)    https://github.com/rstudio/blogdown/issues/351
+AND CHANGE in config.toml.  
+ignoreFiles = ["\\.ipynb$", ".ipynb_checkpoints$", "\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\\.md$"]
+https://bookdown.org/yihui/blogdown/configuration.html#toml-syntax
+
+
+
+# anchor links
+https://ericbryantphd.com/2020/01/13/add-section-links-in-blogdown/#my-solution
+
+
+

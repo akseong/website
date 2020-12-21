@@ -1,0 +1,108 @@
+---
+title: Hello World!
+author: admin
+date: '2020-12-15'
+categories:
+  - planning
+tags:
+  - blogdown
+  - HUGO
+  - planning
+  - R
+slug: post-section-under-construction-plans
+lastmod: "`r format(Sys.time(), '%Y-%m-%dT%H:%M:%S%z')`"
+featured: no
+image:
+  caption: vladislav klapin on unsplash
+  focal_point: ''
+  preview_only: no
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+
+Hey!  I made a web thingamabob!  <span style="color:grey;"> \<polishes fingernails on shoulder\> </span>  Spiffy!
+
+So here's what I have planned thus far for my very own web thingamabob:
+
+# Planned posts:  
+
+1. Building this site with HUGO + wowchemy Academic theme + lots of code-lifting + selectorGadget.  
+    + Or "HUGO + wowchemy is a finicky #*!% GAHHH"  
+    + Lots of posts on this basic topic, but not many people have written about this __after Academc theme became part of Wowchemy__ and that made things hard to figure out for a first-timer.
+    + Also will help me remember what I did and where it goes.
+1. Having babies while doing a PhD.  
+    + tl;dr: don't do it if you can help it.  Otherwise: coffeeeeeeeeee!
+1. Posts on `datagoboop`:
+    + Intro to `datagoboop`'s built-in audioplotting functions
+    + Intro to basic data $\mapsto$ sound functions in `datagoboop`
+    + Building an audioplot from scratch with `datagoboop`
+    + Development plans for `datagoboop`
+1. Regression with penalized splines 
+1. Common penalty contours + P-spline penalty
+1. Bayesian model selection basics
+1. Parallelizing R scripts on a PC.  
+    + don't forget about using source as local job in RStudio!
+1. Articles of interest
+
+
+## Alternate with fun stuff/resources/articles:
+- https://www.c82.net/blog/?id=72
+- https://seeing-theory.brown.edu/
+- http://seeingdata.org/
+- https://networkofthrones.wordpress.com/a-primer-on-network-analysis/
+
+
+
+# testing .Rmd features
+
+## Divtip 
+
+[desiree de leon's post](https://desiree.rbind.io/post/2019/making-tip-boxes-with-bookdown-and-rmarkdown/)
+
+:::puzzle
+puzzle divtip
+:::
+
+:::fyi
+fyi divtip
+:::
+
+:::demo
+demo divtip
+```{r}
+testing <- TRUE
+hey <- "it works!"
+```
+:::
+
+
+:::note
+note divtip
+:::
+
+
+## including plots
+
+```{r chunk_options, echo=F, message=F}
+knitr::opts_chunk$set(cache=F, 
+                      message=F, 
+                      echo=F, 
+                      warning=F)
+```
+
+### base R
+```{r}
+x <- 123
+plot(x=c(1:x), y = rnorm(x))
+
+```
+
+### ggplot2
+```{r}
+library(ggplot2)
+ggplot(airquality) + 
+  geom_point(aes(y=Ozone, x=Solar.R))
+```
+

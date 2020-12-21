@@ -18,4 +18,22 @@ title: Biography
 # This should be the username (folder name) of a profile in your `content/authors/` folder.
 # See https://wowchemy.com/docs/get-started/#introduce-yourself
 author: admin
+
+
+# ADDED
+# Add a background
+# place images in `static/media/`   (my image is in `static/media/backgrounds`)
+# image_position options include `left`, `center` (default), or `right` 
+design:
+  columns: "1"
+  background:
+    image: backgrounds/bubbles-ocean_med.jpg
+    image_darken: 0.7
+    image_parallax: true
+    image_position: center
+    image_size: cover
+    text_color_light: false
+  spacing:
+    padding: ["50px", "0px", "50px", "0px"] # top, R, bottom, L
 ---
+
