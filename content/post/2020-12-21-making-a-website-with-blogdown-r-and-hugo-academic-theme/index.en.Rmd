@@ -15,19 +15,33 @@ authors: []
 lastmod: '2020-12-21T19:36:17-08:00'
 featured: no
 image:
-  caption: ''
+  caption: 'https://xkcd.com/181/'
   focal_point: ''
   preview_only: no
 projects: []
 ---
 
+Since you are reading this, I assume you want to join us on the glorious webtubeways of the blagoblag!  And now that I am an expert having built not five, not a hundred, but one --- __one!__ --- website, I feel qualified to show you how to do it too!
+
+
+...so actually I just wanted to share my experience of getting this thing up and running, in the hopes of saving you some pain and time.  I use R, Rmarkdown, and Github daily, but I came into this with roughly, oh, about exactly zero experience with HTML, HUGO, or the `blogdown` package (see paragraph above).  
+
+
+I use R, Rmarkdown, and Github daily, but I started making this website with roughly about exactly zero experience with HTML, HUGO, or the `blogdown` package.  This post is not the best guide for everyone; there are much better guides out there.  But if you're coming to this from a situation similar to mine,  saving you some pain and time, and to offload some notes for myself.
 
 
 
 
 
 
-__# Table of Contents:__
+I found HUGO and/or the Academic theme to be pretty finicky, but that may have been because I was following the wrong guide.  The guide I recommend is [this presentation by Alison Hill, given at rstudio::conf 2019](https://arm.rbind.io/slides/blogdown.html).  
+
+
+
+
+
+
+# Table of Contents:
 
 ```{r echo=FALSE}
 render_toc <- function(
@@ -84,14 +98,10 @@ render_toc(filename="index.en.Rmd")
 
 
 
+# Resources
 
-
-
-
-
-
-
-
+- Alison Hill's 2019 rstudio::conf slides: https://arm.rbind.io/slides/blogdown.html
+- 
 
 
 
