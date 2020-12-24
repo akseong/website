@@ -49,8 +49,41 @@ h1, h2, h3, h4 {
 
 
 /* -----------div tips------------- */
+
+/* comment div: appears to right of article*/
+div.comment{
+  float: right;
+  position: absolute;
+  color: #00b4c4;
+  padding: 1.5em;
+  overflow: hidden;
+  margin-left: 50%;
+}
+
+/* Can't figure out how to make the div disappear */
+/* when it overlaps post content. */
+/* Instead, div.comment won't appear on small screens */
+/* i.e. smaller than 1080px (i.e. most mobile devices) */
+@media all and (max-width: 1080px) {
+  .comment { display: none; }
+}
+
+
+/* comments/asides in main post body section (-article-container) */
+div.aside{
+  float: right;
+  color: #00b4c4;
+  font-size: smaller;
+  max-width: 25%;
+  margin-left: 2em;
+}
+
+
+
 /* ------- from desiree de leon's blogpost ------ */
-  div.puzzle, div.fyi, div.demo, div.note {
+
+
+div.puzzle, div.fyi, div.demo, div.note {
     padding: 1em;
     margin: 1em 0;
     padding-left: 100px;
@@ -111,13 +144,19 @@ div.note {
 /* --------Blog posts--------- */
   /* from desiree de leon */
   
-.article-style .section.level1 h1,  
-.article-style .section.level2 h2,  
-.article-style .section.level3 h3 {  
- padding-top: 2em;  
- padding-bottom: 1em;  
+.article-style .section.level1 h1 {  
+ padding-top: 2.5em;  
+ padding-bottom: .5em;  
  /*font-weight: 700;  */
 }  
+
+.article-style .section.level2 h2,  
+.article-style .section.level3 h3 {
+ padding-top: 1em;  
+ padding-bottom: .5em;  
+ 
+}
+
 /* 
 /* /* Links within blog posts */
 

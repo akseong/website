@@ -1,15 +1,15 @@
 ---
-title: Making a Website with Blogdown, R, and HUGO Academic Theme
+title: Making a Website with Blogdown, R, and Hugo Academic Theme
 author: Arnie
 date: '2020-12-21'
-slug: making-a-website-with-blogdown-r-and-hugo-academic-theme
+slug: making-a-website
 categories:
   - guide
 tags:
   - R
   - blogdown
   - HUGO
-subtitle: ''
+subtitle: 'join us on the glorious webtubeways of the blagoblag!'
 summary: ''
 authors: []
 lastmod: '2020-12-21T19:36:17-08:00'
@@ -21,23 +21,13 @@ image:
 projects: []
 ---
 
-Since you are reading this, I assume you want to join us on the glorious webtubeways of the blagoblag!  And now that I am an expert having built not five, not a hundred, but one --- __one!__ --- website, I feel qualified to show you how to do it too!
+# {-}
 
+I use R, __rmarkdown__, and Github daily, but I started making this website with roughly about exactly zero experience with HTML, Hugo, or the __blogdown__ package, so I wanted to share my experience of getting this site up and running, in the hopes of saving others some pain and time (and documenting for myself).  
 
-...so actually I just wanted to share my experience of getting this thing up and running, in the hopes of saving you some pain and time.  I use R, Rmarkdown, and Github daily, but I came into this with roughly, oh, about exactly zero experience with HTML, HUGO, or the `blogdown` package (see paragraph above).  
+There are certainly much better guides out there for the general user; this guide assumes you are starting in a similar place as I did.  I also assume you want basic features of Rmarkdown (generating plots in code chunks, for example) to _just work_, so I will cover what I had to do to make it work.  Also worth mentioning: I'm on a PC, so things might be a bit different for Mac users.
 
-
-I use R, Rmarkdown, and Github daily, but I started making this website with roughly about exactly zero experience with HTML, HUGO, or the `blogdown` package.  This post is not the best guide for everyone; there are much better guides out there.  But if you're coming to this from a situation similar to mine,  saving you some pain and time, and to offload some notes for myself.
-
-
-
-
-
-
-I found HUGO and/or the Academic theme to be pretty finicky, but that may have been because I was following the wrong guide.  The guide I recommend is [this presentation by Alison Hill, given at rstudio::conf 2019](https://arm.rbind.io/slides/blogdown.html).  
-
-
-
+  + [Yihui Xie says figures and such _should just work_](https://bookdown.org/yihui/blogdown/dep-path.html), but they did not for me, I assume because of changes to the Academic Theme.  More on this [below](http://localhost:4321/2020/12/21/making-a-website/#note-on-changes-to-academic-theme).
 
 
 
@@ -61,6 +51,7 @@ render_toc <- function(
   }
   x <- strsplit(x, "\n")[[1]]
   x <- x[grepl("^#+", x)]
+  x <- x[!grepl("^# \\{", x)]
   if (!is.null(toc_header_name)) 
     x <- x[!grepl(paste0("^#+ ", toc_header_name), x)]
   if (is.null(base_level))
@@ -86,22 +77,192 @@ render_toc <- function(
       header_slug <- paste(strsplit(header_text, " ")[[1]], collapse="-")
       header_slug <- tolower(header_slug)
     }
-    paste0(strrep(" ", level * 4), "- [", header_text, "](#", header_slug, ")")
+    if (header_text != ""){
+      paste0(strrep(" ", level * 4), "- [", header_text, "](#", header_slug, ")")
+    }
   })
   x <- x[x != ""]
   knitr::asis_output(paste(x, collapse = "\n"))
 }
 
 render_toc(filename="index.en.Rmd")
+# render_toc(filename)
+```
+
+
+
+# Preliminaries:
+
+## Note on changes to Academic Theme
+
+Academic Theme for Hugo semi-recently became part of something called Wowchemy, and this appears to have broken a few things for some people, probably because
+
+  1. its folder structure changed, causing uncertainty when following tutorials, and 
+  1. how it, um, handles some stuff is like, different.  (I have no idea)
+
+I suspect that these changes are what caused plots not to work for me out of the box.  (Or user error.  Or the fact that my computer is mostly duct tape, [pasta](https://en.wikipedia.org/wiki/Alien_(film)#:~:text=pasta) and a hamster wheel.  But really I think it was the changes to Academic theme.)
+
+
+
+
+
+## Resources  
+
+(From most used to least used)
+
+  1. [slides by Alison Hill](https://arm.rbind.io/slides/blogdown.html)
+    - These are for a different theme
+
+  1. [Wowchemy customization guide](https://wowchemy.com/docs/customization/) 
+  
+  1. [__blogdown__ documentation by Yihui Xie](https://bookdown.org/yihui/blogdown/)
+
+  
+I found HUGO and/or the Academic theme to be pretty finicky, but that may have been at least in part because I started off following the wrong guide.  The guide I wish I had started off following is [this presentation by Alison Hill, given at rstudio::conf 2019](https://arm.rbind.io/slides/blogdown.html).  I say this because I scrapped my first attempt after things were not working, and started again following Alison Hill's slides.
+
+
+
+
+
+# Building your site:
+
+## prep
+
++ Install the latest versions of __blogdown__ and Hugo:
+
+```{r eval=FALSE}
+if (!requireNamespace("devtools")) install.packages('devtools')
+devtools::install_github('rstudio/blogdown')
+blogdown::install_hugo()
+```
+
+
++ make a repo on Github
++ create a new Rproject (in Rstudio: File --> New Project --> )
+  - if you don't know how to do this, check out [happygitwithr.com](https://happygitwithr.com/) first.
+
+
+
+:::fyi
+If you plan to host your website from github, you'll want to create a 2nd repository with the name `<yourGithubusername>.github.io`.  So you can't use that for this step.
+:::
+
+
+
+
+## create site with Academic Theme
+
+```{r eval=FALSE}
+library(blogdown)
+new_site(theme="gcushen/hugo-academic",
+         sample=TRUE,
+         theme_example=TRUE,
+         empty_dirs = TRUE,
+         to_yaml = TRUE)
+```
+
++ wait for it to finish, then try using `blogdown::serve_site()` to see what your new website looks like!
+  - it's fairly unattractive as-is.  
+  - it's also not your website ... yet!
+
+
+
+## check deployment
+
+:::fyi
+Don't skip this step!  It will help you detect any problems with your setup so far.  I skipped it because I didn't see the point at the time... and ended up rebuilding everything due to a faulty initial download.
+:::
+
+Two common options:
+
+- Netlify via Github: best if you want a different domain name, auto-deployment, or a web-form for messages.
+
+- Github: simpler, but a few more steps required for deployment every time you update.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### folder structure
+
+Your folder structure will look like this (unless they change it yet again!):
+
+```{r eval=FALSE}
+├───archetypes
+├───assets            # CSS, icons
+├───config            # site configuration
+│   └───_default
+├───content           # play area
+│   ├───authors       # your info in the 'admin' folder
+│   ├───courses
+│   ├───home
+│   ├───post
+│   ├───project
+│   ├───publication
+│   ├───slides
+│   └───talk
+├───data              # themes/fonts go here
+├───layouts           # override .html files
+├───R
+├───resources         # intermediary build files
+├───static            # images goes here
+│   ├───admin
+│   └───media
+└───themes            # NO TOUCH!!
 ```
 
 
 
 
-# Resources
 
-- Alison Hill's 2019 rstudio::conf slides: https://arm.rbind.io/slides/blogdown.html
-- 
+
+
++ in your .gitignore file, add "public/" and "resources/".  It should look like this:
+
+```{r eval=FALSE}
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+public/
+resources/
+```
+
+
+
+
+
+
+:::note
+The "public" folder contains the actual website.  My understanding is that the "resources" folder contains intermediary files.  The other stuff
+:::
+
+
+
+
+
+
+
+
+# general notes
+
+- wowchemy file structure
+- deleting examples
+- .rmd support
+
 
 
 
