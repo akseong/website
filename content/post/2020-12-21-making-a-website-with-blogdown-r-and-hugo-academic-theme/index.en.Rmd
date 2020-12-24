@@ -21,13 +21,32 @@ image:
 projects: []
 ---
 
-# {-}
 
-I use R, __rmarkdown__, and Github daily, but I started making this website with roughly about exactly zero experience with HTML, Hugo, or the __blogdown__ package, so I wanted to share my experience of getting this site up and running, in the hopes of saving others some pain and time (and documenting for myself).  
 
-There are certainly much better guides out there for the general user; this guide assumes you are starting in a similar place as I did.  I also assume you want basic features of Rmarkdown (generating plots in code chunks, for example) to _just work_, so I will cover what I had to do to make it work.  Also worth mentioning: I'm on a PC, so things might be a bit different for Mac users.
 
-  + [Yihui Xie says figures and such _should just work_](https://bookdown.org/yihui/blogdown/dep-path.html), but they did not for me, I assume because of changes to the Academic Theme.  More on this [below](http://localhost:4321/2020/12/21/making-a-website/#note-on-changes-to-academic-theme).
+# Why should you use this guide?
+
+There are certainly better general purpose guides to __blogdown__ + Hugo out there ([these slides by Alison Hill in particular are great](https://arm.rbind.io/slides/blogdown.html)), but I could not find any __recent__ guides on setting up a website with __blogdown__ + the very popular Academic Theme for Hugo.  I followed an older guide --- several, actually --- and it was confusing, __because Academic Theme for Hugo changed__ when it moved to Wowchemy (whatever that is).  
+
+A few things went wrong because of the combination of my inexperience and confusion over the change, and I ended up rebuilding everything :expressionless:.  So hopefully my experience as a first-time user of __blogdown__ and Academic Theme and Hugo can help save you some frustration.
+
+
+## Who is this meant for?
+
+Essentially, people like me a week ago: though I use R, __rmarkdown__, and GitHub daily, I had roughly, oh, about exactly zero experience with HTML, Hugo, or the __blogdown__ package. 
+
+You might also find this helpful if you are troubleshooting your Academic Theme website after updating it recently.
+
+Also worth mentioning: I'm on a PC, so things might be a bit different for you Mac folks out there.
+
+
+
+## Caveats
+
+I'm not an expert on any of this!  Some of my fixes might be sub-optimal, or perhaps even partially unnecessary.  If any of you out there read this and see things like this, please let me know!
+ 
+Also, a lot of this is cobbled together from different sources, and I'll point you to them unless changes are necessary and would be easier to follow if I put it all in one place (I'm terribly lazy about duplicating work --- erm, I mean I want to make sure others get credit where due!  Both, really).
+
 
 
 
@@ -97,10 +116,10 @@ render_toc(filename="index.en.Rmd")
 
 Academic Theme for Hugo semi-recently became part of something called Wowchemy, and this appears to have broken a few things for some people, probably because
 
-  1. its folder structure changed, causing uncertainty when following tutorials, and 
-  1. how it, um, handles some stuff is like, different.  (I have no idea)
+  1. its folder structure changed, and 
+  1. how it, um, handles some stuff is like, different.  (I really have no idea)
 
-I suspect that these changes are what caused plots not to work for me out of the box.  (Or user error.  Or the fact that my computer is mostly duct tape, [pasta](https://en.wikipedia.org/wiki/Alien_(film)#:~:text=pasta) and a hamster wheel.  But really I think it was the changes to Academic theme.)
+I suspect that these changes are what caused, for example, __plotting in code chunks not to work__ for me.  (Or user error.  Or the fact that my computer is mostly duct tape, [pasta](https://en.wikipedia.org/wiki/Alien_(film)#:~:text=pasta) and a hamster wheel.  But really I think it was the changes to Academic theme.)
 
 
 
@@ -110,15 +129,17 @@ I suspect that these changes are what caused plots not to work for me out of the
 
 (From most used to least used)
 
-  1. [slides by Alison Hill](https://arm.rbind.io/slides/blogdown.html)
-    - These are for a different theme
+1. [slides by Alison Hill](https://arm.rbind.io/slides/blogdown.html)
+    - These are for a different theme, but her advice is the best and most practical.  Plus it's easy to follow steps in this format.
 
-  1. [Wowchemy customization guide](https://wowchemy.com/docs/customization/) 
+1. [Wowchemy customization guide](https://wowchemy.com/docs/customization/)
+    - It was hard as a first-time user to find the info I needed here, but if/once I did, it was helpful.
   
-  1. [__blogdown__ documentation by Yihui Xie](https://bookdown.org/yihui/blogdown/)
+1. [__blogdown__ documentation by Yihui Xie](https://bookdown.org/yihui/blogdown/)
+    - Yihui Xie is basically the Gandalf of the Fellowship of R Users.  
 
-  
-I found HUGO and/or the Academic theme to be pretty finicky, but that may have been at least in part because I started off following the wrong guide.  The guide I wish I had started off following is [this presentation by Alison Hill, given at rstudio::conf 2019](https://arm.rbind.io/slides/blogdown.html).  I say this because I scrapped my first attempt after things were not working, and started again following Alison Hill's slides.
+1. [post by Matteo Courthoud](https://matteocourthoud.github.io/post/website/) on making a website
+    - __Follow Alison Hill's guide__, but this _is_ helpful as a quick overview.  It contains outdated information, unfortunately (this is the one I started off using, but then had to rebuild).  However, the [section on Basic Customization](https://matteocourthoud.github.io/post/website/#:~:text=Basic%20Customization) is helpful and specific, and his color scheme is awesome (I totally copied it!).
 
 
 
@@ -126,7 +147,9 @@ I found HUGO and/or the Academic theme to be pretty finicky, but that may have b
 
 # Building your site:
 
-## prep
+This section is mostly from [Alison Hill's slides](https://arm.rbind.io/slides/blogdown.html).
+
+## prep 
 
 + Install the latest versions of __blogdown__ and Hugo:
 
@@ -137,14 +160,14 @@ blogdown::install_hugo()
 ```
 
 
-+ make a repo on Github
++ make a repo on GitHub
 + create a new Rproject (in Rstudio: File --> New Project --> )
   - if you don't know how to do this, check out [happygitwithr.com](https://happygitwithr.com/) first.
 
 
 
 :::fyi
-If you plan to host your website from github, you'll want to create a 2nd repository with the name `<yourGithubusername>.github.io`.  So you can't use that for this step.
+If you plan to host your website from GitHub, you'll want to create a 2nd repository with the name `<yourGitHubusername>.github.io`.  So you can't use that for this step.
 :::
 
 
@@ -175,9 +198,9 @@ Don't skip this step!  It will help you detect any problems with your setup so f
 
 Two common options:
 
-- Netlify via Github: best if you want a different domain name, auto-deployment, or a web-form for messages.
+- Netlify via GitHub: best if you want a different domain name, auto-deployment, or a web-form for messages.
 
-- Github: simpler, but a few more steps required for deployment every time you update.
+- GitHub: simpler, but a few more steps required for deployment every time you update.
 
 
 
