@@ -41,7 +41,7 @@ design:
   view: 2
   columns: "1"
   background:
-    image: backgrounds/alexander-dummer_med2.jpg
+    image: backgrounds/postlandingbubbles.jpg
     image_darken: 0.65
     image_parallax: true
     image_position: center

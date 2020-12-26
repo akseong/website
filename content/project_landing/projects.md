@@ -61,7 +61,7 @@ subtitle = ""
   # gradient_end = "SkyBlue"
   
   # Background image.
-  image = "backgrounds/bubbles-colorful_med.jpg"  # Name of image in `static/media/`.
+  image = "backgrounds/projectlandingbubbles.jpg"  # Name of image in `static/media/`.
   image_darken = 0.75  # Darken the image? Range 0-1 where 0 is transparent and 1 is opaque.
   image_parallax = true
 

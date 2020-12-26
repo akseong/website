@@ -68,7 +68,7 @@ experience:
 design:
   columns: '2'
   background:
-    image: backgrounds/bubbles-blurcolor_med.jpg
+    image: backgrounds/expcurrbubbles.jpg
     image_darken: 0.5
     image_parallax: true
     image_position: center
