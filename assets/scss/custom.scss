@@ -122,6 +122,8 @@ div.note {
   vertical-align: super;
 }
 
+
+
 .fa-link{
   color: #666369;
 }
@@ -154,7 +156,12 @@ div.note {
 .article-style .section.level3 h3 {
  padding-top: 2em;  
  padding-bottom: .5em;  
- 
+}
+
+.article-style .section p,
+.article-style .section ul,
+.article-style .section li{
+  font-size: large;
 }
 
 /* 
