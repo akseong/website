@@ -29,7 +29,7 @@ content:
 design:
   columns: '2'
   background:
-    image: backgrounds/eva-elijas_sm.jpg
+    image: backgrounds/contactbeer.jpg
     image_darken: 0.7
     image_parallax: true
     image_position: center

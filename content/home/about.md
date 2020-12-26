@@ -27,7 +27,7 @@ author: admin
 design:
   columns: "1"
   background:
-    image: backgrounds/bubbles-ocean_med.jpg
+    image: backgrounds/aboutocean.jpg
     image_darken: 0.7
     image_parallax: true
     image_position: center
