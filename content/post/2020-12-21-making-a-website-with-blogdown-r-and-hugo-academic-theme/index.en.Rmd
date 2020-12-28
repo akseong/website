@@ -21,14 +21,23 @@ image:
 projects: []
 ---
 
+```{r openingchunk, echo=FALSE}
+knitr::opts_chunk$set(message=FALSE, 
+                      eval=FALSE,
+                      warning=FALSE,
+                      echo=TRUE)
+```
 
 
 
-# Why should you use this guide?
+# Why use this guide?
 
-There are certainly better general purpose guides to __blogdown__ + Hugo out there ([these slides by Alison Hill in particular are great](https://arm.rbind.io/slides/blogdown.html)), but I could not find any __recent__ guides on setting up a website with __blogdown__ + the very popular Academic Theme for Hugo.  I followed an older guide --- several, actually --- and it was confusing, __because Academic Theme for Hugo changed__ when it moved to Wowchemy (whatever that is).  
+This isn't really a guide I wrote as much as a combination of suggestions/info from different sources (mostly by Alison Hill and Yihui Xie) or my own experience.  If you want a very streamlined guide, [Alison Hill's 2019 slides on starting a website with __blogdown__ and Hugo](https://arm.rbind.io/slides/blogdown.html) are the bees' knees.  
 
-A few things went wrong because of the combination of my inexperience and confusion over the change, and I ended up rebuilding everything :expressionless:.  So hopefully my experience as a first-time user of __blogdown__ and Academic Theme and Hugo can help save you some frustration.
+One reason you might still want to use this guide, however: __Academic Theme for Hugo had some breaking changes__ in an update earlier this year.  I was not aware of these changes, and enough things went wrong --- __plots didn't show up!  deployment failed due to some odd bug!__--- that made me decide I needed to start over.  I was also following a different guide, not Alison's, for this ill-fated first attempt.  So hopefully my experience as a first-time user of __blogdown__ & Academic Theme & Hugo can help save you some frustration and time.
+
+I'll try to note any deviations, but in general this post borrows _heavily_ from Alison Hill's presentation slides.
+
 
 
 ## Who is this meant for?
@@ -43,16 +52,16 @@ Also worth mentioning: I'm on a PC, so things might be a bit different for you M
 
 ## Caveats
 
-I'm not an expert on any of this!  Some of my fixes might be sub-optimal, or perhaps even partially unnecessary.  If any of you out there read this and see things like this, please let me know!
- 
-Also, a lot of this is cobbled together from different sources, and I'll point you to them unless changes are necessary and would be easier to follow if I put it all in one place (I'm terribly lazy about duplicating work --- erm, I mean I want to make sure others get credit where due!  Both, really).
+I'm not anywhere near an expert on any of this!  A lot of this (ok all of it) is cobbled together from different sources --- I'm basically just an expert on Googling.  So some of the workarounds here may be sub-optimal / not necessary anymore / just not necessary.  Please feel free to let me know!
+
+
 
 
 
 
 # Table of Contents:
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=TRUE}
 render_toc <- function(
   filename, 
   toc_header_name = "Table of Contents",
@@ -114,68 +123,69 @@ render_toc(filename="index.en.Rmd")
 
 ## Note on changes to Academic Theme
 
-Academic Theme for Hugo semi-recently became part of something called Wowchemy, and this appears to have broken a few things for some people, probably because
+As mentioned earlier, Academic Theme for Hugo had an update earlier this year: it became part of something called Wowchemy, and this appears to have broken a few things for some people, probably because
 
   1. its folder structure changed, and 
   1. how it, um, handles some stuff is like, different.  (I really have no idea)
 
-I suspect that these changes are what caused, for example, __plotting in code chunks not to work__ for me.  (Or user error.  Or the fact that my computer is mostly duct tape, [pasta](https://en.wikipedia.org/wiki/Alien_(film)#:~:text=pasta) and a hamster wheel.  But really I think it was the changes to Academic theme.)
-
+A major thing that broke for me was that __plots from .Rmd code chunks__ were not displayed, even though [this should work out-of-the-box](https://bookdown.org/yihui/blogdown/dep-path.html), I suspect because the folder structure changed.  Though it could just have been user error or some outdated settings.  Or the fact that my computer is mostly duct tape, [pasta](https://en.wikipedia.org/wiki/Alien_(film)#:~:text=pasta), and a hamster wheel.  
 
 
 
 
 ## Resources  
 
-(From most used to least used)
+(ordered from most used to least used)
 
 1. [slides by Alison Hill](https://arm.rbind.io/slides/blogdown.html)
-    - These are for a different theme, but her advice is the best and most practical.  Plus it's easy to follow steps in this format.
+    - These are for a different theme, but her advice is accurate, practical, and clear.  Plus it's easy to follow steps in this presentation format.
+
+1. [__blogdown__ documentation by Yihui Xie](https://bookdown.org/yihui/blogdown/hugo.html)
+    - Yihui Xie is basically the Gandalf of the Fellowship of R Users.  
 
 1. [Wowchemy customization guide](https://wowchemy.com/docs/customization/)
     - It was hard as a first-time user to find the info I needed here, but if/once I did, it was helpful.
-  
-1. [__blogdown__ documentation by Yihui Xie](https://bookdown.org/yihui/blogdown/)
-    - Yihui Xie is basically the Gandalf of the Fellowship of R Users.  
 
 1. [post by Matteo Courthoud](https://matteocourthoud.github.io/post/website/) on making a website
-    - __Follow Alison Hill's guide__, but this _is_ helpful as a quick overview.  It contains outdated information, unfortunately (this is the one I started off using, but then had to rebuild).  However, the [section on Basic Customization](https://matteocourthoud.github.io/post/website/#:~:text=Basic%20Customization) is helpful and specific, and his color scheme is awesome (I totally copied it!).
+    - This is the guide I started off using first, leading to a rebuild.  As such, I don't recommend using this --- some of the specifics seem to be outdated.  __Follow Alison Hill's guide instead__.  I _did_, however, find it helpful to have already read Matteo's guide as I started my second attempt.  For example, the [section on Basic Customization](https://matteocourthoud.github.io/post/website/#:~:text=Basic%20Customization) is helpful and specific.  Also, his color scheme is awesome and I totally copied it!
 
 
 
 
 
-# Building your site:
+# Starting up:
 
-This section is mostly from [Alison Hill's slides](https://arm.rbind.io/slides/blogdown.html).
+* This section is almost all from [Alison Hill's slides](https://arm.rbind.io/slides/blogdown.html).
 
 ## prep 
 
 + Install the latest versions of __blogdown__ and Hugo:
 
-```{r eval=FALSE}
+```{r}
 if (!requireNamespace("devtools")) install.packages('devtools')
 devtools::install_github('rstudio/blogdown')
 blogdown::install_hugo()
 ```
 
 
-+ make a repo on GitHub
-+ create a new Rproject (in Rstudio: File --> New Project --> )
-  - if you don't know how to do this, check out [happygitwithr.com](https://happygitwithr.com/) first.
++ make a repo on GitHub.
++ create a new Rproject and connect it to the repo. 
+  - in Rstudio: File --> New Project --> Version Control --> Git (if you don't know how to do these things, follow [the links in Alison's slides](https://arm.rbind.io/slides/blogdown.html#9).)
 
 
 
 :::fyi
-If you plan to host your website from GitHub, you'll want to create a 2nd repository with the name `<yourGitHubusername>.github.io`.  So you can't use that for this step.
+If you plan to host your website from GitHub, you will probably want to host it from a repository with the name `<yourGitHubusername>.github.io`.  So you can't use that for this step.
 :::
 
 
 
 
-## create site with Academic Theme
 
-```{r eval=FALSE}
+
+## initialize site with Academic Theme
+
+```{r}
 library(blogdown)
 new_site(theme="gcushen/hugo-academic",
          sample=TRUE,
@@ -184,86 +194,234 @@ new_site(theme="gcushen/hugo-academic",
          to_yaml = TRUE)
 ```
 
-+ wait for it to finish, then try using `blogdown::serve_site()` to see what your new website looks like!
-  - it's fairly unattractive as-is.  
-  - it's also not your website ... yet!
+After that finishes, see if the site builds locally.  Use the "Addins" dropdown (end of the 2nd row of Rstudio's menu bar) to select "Serve site" or use
 
-
-
-## check deployment
-
-:::fyi
-Don't skip this step!  It will help you detect any problems with your setup so far.  I skipped it because I didn't see the point at the time... and ended up rebuilding everything due to a faulty initial download.
-:::
-
-Two common options:
-
-- Netlify via GitHub: best if you want a different domain name, auto-deployment, or a web-form for messages.
-
-- GitHub: simpler, but a few more steps required for deployment every time you update.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### folder structure
-
-Your folder structure will look like this (unless they change it yet again!):
-
-```{r eval=FALSE}
-├───archetypes
-├───assets            # CSS, icons
-├───config            # site configuration
-│   └───_default
-├───content           # play area
-│   ├───authors       # your info in the 'admin' folder
-│   ├───courses
-│   ├───home
-│   ├───post
-│   ├───project
-│   ├───publication
-│   ├───slides
-│   └───talk
-├───data              # themes/fonts go here
-├───layouts           # override .html files
-├───R
-├───resources         # intermediary build files
-├───static            # images goes here
-│   ├───admin
-│   └───media
-└───themes            # NO TOUCH!!
+```{r}
+blogdown::serve_site()
 ```
 
 
+## .gitignore
 
-
-
-
-
-+ in your .gitignore file, add "public/" and "resources/".  It should look like this:
-
-```{r eval=FALSE}
+Before we move on, add the `resources` and `public` folders to your `.gitignore` file so that it looks like this:
+```{r}
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
 public/
 resources/
+
 ```
 
+:::fyi
+If you haven't done this already, make sure your RStudio is configured to [make source files end with a newline](https://yihui.org/en/2018/04/rprofile-trailing-newline/).  
+
+tl/dr; when you need it, not having it breaks things, and when you don't need it, having it doesn't harm anything.  It's kind of like [Pascal's Wager](https://en.wikipedia.org/wiki/Pascal%27s_wager), just a smidge less consequential.
+:::
+
+
+
+
+## check deployment 
+
+Don't skip this step!  It will help you detect problems as you move forward.  I skipped it the first time through --- no one said why to do it, and I didn't see the point of deploying so early on --- and ended up starting over.
+
+Two common options for hosting:
+
++ __Netlify via GitHub__: best if you want a different domain name, auto-deployment, or a web-form for messages.
+
++ __GitHub__: simpler on the face of it, but a few more steps required for deployment every time you update.
+
+
+
+
+
+### option 1: netlify deployment (recommended)
+
+:::fyi
+Alison Hill recommends building the site locally, then dragging/dropping the `public` folder into Netlify.  This is too many steps for me to follow each time I want to see what the website looks like, and doesn't let me take advantage of netlify's deploy branches option to test changes I make to the website before putting them out into the world.  So I'm going to walk you through setting up continuous deployment from a Github repo.
+:::
+
+
+
+__Steps:__  
+
+  1. Push everything to your GitHub repo. Don't use the Git tab!  Checking those boxes will take a loooong time if it completes at all.  Instead (will still take a minute, but it's _much_ faster), in the RStudio terminal (the tab next to your console), type:
+  ```
+  git add -A               # stages everything
+  git commit -m "init"     # commit with message "init"
+  git push  
+  ```
+
+  2. While you're waiting, set up an account at [netlify.com](netlify.com).
+  1. Once you have an account and everything has been pushed, click "New site from Git" --> Github --> Only select repositories --> select your website repo.
+      + If you end up using a different repo for some reason, you can always give Netlify access to another repo using the "Configure the Netlify app on Github" link at the bottom of the page.
+  1. Your url will be something weird like "youthful-piranha-4ec83f".  
+      + Change it: "Site settings" link --> "Change site name" link.
+
+You can always change the site name, or redirect the build to a new domain.  [`rbind.io` is a nice, free option](https://support.rbind.io/about/).
+
+Cool!  Now whenever you push to your repo, netlify will build it and serve your website.
+
+Also, to use the branch deploy feature, all you have to do now is create a branch __and pull it__, and netlify will let you preview it!  [More details + suggested workflow here](https://www.garrickadenbuie.com/blog/blogdown-netlify-new-post-workflow/).
+  
+
+
+
+
+### option 2: Github deployment
+
+__Steps:__  
+
+1. Build the site: "Build" tab (next to Environment, History, Connections) --> Build Website
+    + This builds your website locally, in a new folder named `public` in your project root directory.
+1. Get the contents of the `public` folder (not the folder itself, just what's inside) into a GitHub repo named `<yourGitHubusername.github.io>`.  For example, my repo would be named `akseong.github.io`, and that would also be the url of my website.  
+
+__Done!__  Super easy, but unfortunately, whenever you want to update your website or add content, you will need to follow these same steps.
+
+
+
+
+
+# Folder structure
+
+Alison Hill gives you [a short assignment](https://arm.rbind.io/slides/blogdown.html#24) to figure out your folder structure, and I think it's helpful to go through.  Your folders / files are going to look a little different, though (updates since 2019, different theme).
+
+_Your_ folder structure will look like this (unless it's changed yet again!):
+
+```{r}
+├───archetypes
+├───assets            # CSS, icons
+├───config            
+│   └───_default      # site customizations
+├───content           
+│   ├───authors       # modify about page info in the 'admin' folder
+│   ├───courses
+│   ├───home          # splash page
+│   ├───post
+│   ├───project
+│   ├───publication
+│   ├───slides
+│   └───talk
+├───data              
+│   ├───fonts         
+│   ├───themes        # "themes" = color scheme
+├───layouts           # overrides theme layouts
+├───R
+├───resources         # intermediary build files - delete often
+├───static            
+│   ├───admin
+│   └───media         # images used with posts/projects
+└───themes            # NO TOUCH!  
+```
+
+
+The comments should be fairly self-explanatory, but the `content` folder is worth discussing a little here.  The general idea is that the existing folders inside the `content` folder either  
+
+1. are a separate page in the website, or
+1. contain info used by widgets.
+
+This is a little loose (e.g. the `contents/home/gallery` folder doesn't fit so neatly in here), but I find it useful to think of it this way.
+
+For the first type of folder, since the Academic Theme by default generates a 1-page website, the `home` folder is the only "separate page" folder here right now.  You can add new folders here for new website pages (more on this later).  If you look inside `content/home`, you'll see a file `index.md` which indicates that this is a "widget page".  The other `.md` files activate different widgets to use on the home page.
+
+Folders containing info used by widgets will have a file `_index.md` and subfolders for each entry.  For example, the folder `content/post` is where by default your blog posts will go, and each post gets its own subfolder inside `content/post`.  The widget that uses the content in `content/post` is actually `contents/home/posts.md`, which contains the lines 
+
+``` 
+widget: pages              # <-- widget type
+...<some other stuff>... 
+page_type: post            # <-- where to find the content for the widget
+```
+Confusingly, this indicates that it is a `pages`-type widget with content in the folder named `post`.  (And this widget is inside the `contents/home` folder, since by default it's on your home page).
+
+
+
+
+
+# Customization: basic
+
+Now to make your website yours!  A few tips for troubleshooting while editing your website:
+
+1. If not already running, use `blogdown::serve_site()` to see how your website responds to changes you make.  (You can also open the site in a browser tab using the "show in new window" icon in the viewer pane menu bar)
+1. If changes you make do not seem to be appearing, stop and restart the local server by running `blogdown::stop_server()`, then `blogdown::serve_site()`.
+1. If that doesn't work, try stopping the local server, deleting the `resources` and `public` folders in your project's root directory, and then starting the local server again.  
+    + `resources` contains intermediary build files, and will be auto-generated as needed.
+    + `public` is generated when you build the website using the "Build" tab.  If you used the Netlify deployment option, you don't need to build it locally.
+1. Otherwise, take a look at [Alison Hill's troubleshooting guide](https://alison.rbind.io/post/2019-03-04-hugo-troubleshooting/), or go to Google.
+
+
+
+
+## Site config
+
+There are 3 main files:  
+
++ `config.yaml`: general site configuration
++ `config/_default/params.toml`: personal info + site feature configuration, e.g. syntax highlighting
++ `config/_default/menus.toml`: navbar customization
+
+### config.yaml
+In `config.yaml` in your root directory, change the following fields:  
+
+  - `title:` site name (your name if this is a personal website)
+  - `baseurl:` set it to the url your site has been deployed to.  You didn't skip that step, did you?  If you did, you can also change it to '/'.  But it must be specified.
+  - `ignoreFiles:` Yihui Xie [recommends specifying these patterns](https://bookdown.org/yihui/blogdown/configuration.html#:~:text=at%20least%20these%20patterns).  If you've been following this guide, you have a `config.yaml` file instead of a `config.toml` file, and the only things you should need to add to the default list under `ignoreFiles` are 
+```{r}
+    - \.knit\.md$
+    - \.utf8\.md$
+```
+
+
+:::fyi
+Some people recommend including `"_files$"` in `ignoreFiles`, but this will make the plotting fix not work later.
+:::
+
+
+Add the lines (I put these right beneath `baseurl:`):
+```{r}
+relativeURLs: yes
+canonifyURLs: yes
+```
+
++ `relativeURLs: yes` is necessary for cloud setup.  Also, if you don't specify your `baseurl`, some external links will break (found this out when trying to make a link to github in my nav bar).
+
++ `cannonifyURLs: yes`: my understanding is that this makes it so that other people sharing your content via social media will link back to your actual website.
+
+Last, beneath `permalinks`, add `post: /:year/:month/:day/:slug/` (follow indents).
+
+
+### params.toml
+math = true
+
+
+### menus.toml
+
+- new pages instead of just one long scrolling page
+
+
+
+
+
+
+## Your info
+
+First, I'd suggest going to `content/home/hero.md` and `content/home/demo.md` and setting `active: false` so that the `about.md` widget is at the top (alternatively, set the `weight` fields to something >20 so that they appear later on the page).  It will just be easier to see (using `blogdown::serve_site()`) the changes you're making.  You can always reactivate these widgets or reorder them later.
+
+Now, the `about.md` widget in `content/home` draws its info from the folder `content/authors/admin/`.  
+
+  + For the text, edit `_index.md` with your info.  Most of it should be self-explanatory, especially if you look at the served website while editing, but note that the `bio:` field in the header is what appears next to your name at the end of posts, not in the section generated by the "about" widget.
++ Add your picture by placing a .jpg image into `content/authors/admin` and naming it `avatar.jpg`
+
+
+## Other widgets
+
+Poke around `content/home`, and deactivate the widgets you don't want by setting `active: false`
+
+
+- baseurl
+- themes/fonts
+- authors --> admin
 
 
 
@@ -274,6 +432,15 @@ The "public" folder contains the actual website.  My understanding is that the "
 :::
 
 
+
+
+
+
+## Modification to fix plotting
+
+As mentioned earlier, plots generated by code chunks in .Rmd files were not showing up on my website.  This fixed it:  
+
+1. create a setting in your `.Rprofile` to initialize new blog posts with a [page bundle](https://alison.rbind.io/post/2019-02-21-hugo-page-bundles/#hugo-page-bundles).
 
 
 
