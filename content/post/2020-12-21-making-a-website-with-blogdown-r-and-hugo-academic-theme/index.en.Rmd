@@ -1,8 +1,8 @@
 ---
 title: Making a Website with Blogdown, R, and Hugo Academic Theme
 author: Arnie
-date: '2020-12-21'
-slug: making-a-website
+date: '2020-12-28'
+slug: make-website
 categories:
   - guide
 tags:
@@ -21,47 +21,12 @@ image:
 projects: []
 ---
 
-```{r openingchunk, echo=FALSE}
+```{r openingchunk, echo=FALSE, eval=TRUE}
 knitr::opts_chunk$set(message=FALSE, 
                       eval=FALSE,
                       warning=FALSE,
                       echo=TRUE)
-```
 
-
-
-# Why use this guide?
-
-This isn't really a guide I wrote as much as a combination of suggestions/info from different sources (mostly by Alison Hill and Yihui Xie) or my own experience.  If you want a very streamlined guide, [Alison Hill's 2019 slides on starting a website with __blogdown__ and Hugo](https://arm.rbind.io/slides/blogdown.html) are the bees' knees.  
-
-One reason you might still want to use this guide, however: __Academic Theme for Hugo had some breaking changes__ in an update earlier this year.  I was not aware of these changes, and enough things went wrong --- __plots didn't show up!  deployment failed due to some odd bug!__--- that made me decide I needed to start over.  I was also following a different guide, not Alison's, for this ill-fated first attempt.  So hopefully my experience as a first-time user of __blogdown__ & Academic Theme & Hugo can help save you some frustration and time.
-
-I'll try to note any deviations, but in general this post borrows _heavily_ from Alison Hill's presentation slides.
-
-
-
-## Who is this meant for?
-
-Essentially, people like me a week ago: though I use R, __rmarkdown__, and GitHub daily, I had roughly, oh, about exactly zero experience with HTML, Hugo, or the __blogdown__ package. 
-
-You might also find this helpful if you are troubleshooting your Academic Theme website after updating it recently.
-
-Also worth mentioning: I'm on a PC, so things might be a bit different for you Mac folks out there.
-
-
-
-## Caveats
-
-I'm not anywhere near an expert on any of this!  A lot of this (ok all of it) is cobbled together from different sources --- I'm basically just an expert on Googling.  So some of the workarounds here may be sub-optimal / not necessary anymore / just not necessary.  Please feel free to let me know!
-
-
-
-
-
-
-# Table of Contents:
-
-```{r echo=FALSE, eval=TRUE}
 render_toc <- function(
   filename, 
   toc_header_name = "Table of Contents",
@@ -113,6 +78,46 @@ render_toc <- function(
   knitr::asis_output(paste(x, collapse = "\n"))
 }
 
+# TEXT/TABLE FORMATTING----
+colorhtml <- function(x, color="MediumOrchid") {
+  sprintf("<span style='color: %s;'>%s</span>", color, x)
+}
+```
+
+
+
+# Why use this guide?
+
+This isn't really a guide I wrote as much as a cobbling-together of guides/info from different sources (mostly by Alison Hill and Yihui Xie) plus my very inexpert observations as a first-time user.  If you want a streamlined guide, [Alison Hill's 2019 slides on starting a website with __blogdown__ and Hugo](https://arm.rbind.io/slides/blogdown.html) are the bees' knees.  
+
+One reason you might still want to use this guide, however: __Academic Theme for Hugo seems to have had some major changes__ in an update earlier this year.  I was not aware of these changes, and enough things went wrong --- __plots didn't show up!  deployment failed due to some odd bug!__--- that made me decide I needed to start over.  I was also following a different guide, not Alison's, for this ill-fated first attempt.  So hopefully my experience as a first-time user of __blogdown__ & Academic Theme & Hugo can help save you some frustration and time.
+
+I'll try to note any deviations, but in general this post borrows _heavily_ from Alison Hill's presentation slides.  It's worth mentioning that my appreciation for the team at RStudio --- already considerable --- grew remarkably after fumbling my way through all of this and stumbling on their wonderfully open and welcoming approach to creating and documenting tools.  
+
+
+
+## Who is this meant for?
+
+Essentially, people like me a week ago: though I use R, __rmarkdown__, and GitHub daily, I had roughly, oh, about exactly zero experience with HTML, Hugo, or the __blogdown__ package. 
+
+You might also find this helpful if you are troubleshooting your Academic Theme website after updating it recently.
+
+Also worth mentioning: I'm on a PC, so things might be a bit different for you Mac folks out there.
+
+
+
+## Caveats
+
+I'm not anywhere near an expert on any of this!  A lot of this (ok all of it) is cobbled together from different sources --- I'm basically just an expert on Googling.  So some of the workarounds here may be sub-optimal / not necessary anymore / just not necessary.  Please feel free to let me know!
+
+
+
+
+
+
+# Table of Contents:
+
+```{r echo=FALSE, eval=TRUE}
 render_toc(filename="index.en.Rmd")
 # render_toc(filename)
 ```
@@ -123,12 +128,12 @@ render_toc(filename="index.en.Rmd")
 
 ## Note on changes to Academic Theme
 
-As mentioned earlier, Academic Theme for Hugo had an update earlier this year: it became part of something called Wowchemy, and this appears to have broken a few things for some people, probably because
+As mentioned earlier, Academic Theme for Hugo had an update earlier this year: it became part of something called Wowchemy, and this appears to have broken a few things for some people, or required different settings, probably because
 
   1. its folder structure changed, and 
   1. how it, um, handles some stuff is like, different.  (I really have no idea)
 
-A major thing that broke for me was that __plots from .Rmd code chunks__ were not displayed, even though [this should work out-of-the-box](https://bookdown.org/yihui/blogdown/dep-path.html), I suspect because the folder structure changed.  Though it could just have been user error or some outdated settings.  Or the fact that my computer is mostly duct tape, [pasta](https://en.wikipedia.org/wiki/Alien_(film)#:~:text=pasta), and a hamster wheel.  
+A major thing that did not work for me was that __plots from .Rmd code chunks__ were not displayed, even though [this should work out-of-the-box](https://bookdown.org/yihui/blogdown/dep-path.html), I suspect because the folder structure changed.  Though it could just have been user error or some outdated settings.  Or the fact that my computer is mostly duct tape, [pasta](https://en.wikipedia.org/wiki/Alien_(film)#:~:text=pasta), and a hamster wheel.  
 
 
 
@@ -310,7 +315,7 @@ _Your_ folder structure will look like this (unless it's changed yet again!):
 ├───layouts           # overrides theme layouts
 ├───R
 ├───resources         # intermediary build files - delete often
-├───static            
+├───static            # place for files that do not need to get "built" by Hugo
 │   ├───admin
 │   └───media         # images used with posts/projects
 └───themes            # NO TOUCH!  
@@ -319,54 +324,66 @@ _Your_ folder structure will look like this (unless it's changed yet again!):
 
 The comments should be fairly self-explanatory, but the `content` folder is worth discussing a little here.  The general idea is that the existing folders inside the `content` folder either  
 
-1. are a separate page in the website, or
-1. contain info used by widgets.
+1. are a separate page in the website
+    - these folders contain an `index.md` file + widget `.md` files
+1. contain info used by widgets  
+    - these folders usually contain a subfolder for each piece of content, e.g. each post or project
 
-This is a little loose (e.g. the `contents/home/gallery` folder doesn't fit so neatly in here), but I find it useful to think of it this way.
+This is a little loose (e.g. the `contents/home/gallery` folder doesn't fit so neatly in here) but I find it useful to think of it this way.
 
-For the first type of folder, since the Academic Theme by default generates a 1-page website, the `home` folder is the only "separate page" folder here right now.  You can add new folders here for new website pages (more on this later).  If you look inside `content/home`, you'll see a file `index.md` which indicates that this is a "widget page".  The other `.md` files activate different widgets to use on the home page.
+The `home` folder is the only "separate page"-type folder here right now --- the Academic Theme by default generates a 1-page website --- but you can [add new folders for new website pages](#separate-pages).  Inside `content/home`, you'll see a file `index.md` which indicates that this is a "widget page".  The other `.md` files inside the folder activate different widgets on the home page.
 
-Folders containing info used by widgets will have a file `_index.md` and subfolders for each entry.  For example, the folder `content/post` is where by default your blog posts will go, and each post gets its own subfolder inside `content/post`.  The widget that uses the content in `content/post` is actually `contents/home/posts.md`, which contains the lines 
+Folders containing info used by widgets will have a file `_index.md` (note the underscore) and subfolders for each entry.  For example, the folder `content/post/` is where your blog posts go by default, and each post gets its own subfolder inside `content/post`.  The widget that uses the content in `content/post` is actually `contents/home/posts.md`, which contains the lines 
 
 ``` 
 widget: pages              # <-- widget type
-...<some other stuff>... 
+...<other options>... 
 page_type: post            # <-- where to find the content for the widget
 ```
-Confusingly, this indicates that it is a `pages`-type widget with content in the folder named `post`.  (And this widget is inside the `contents/home` folder, since by default it's on your home page).
+These lines indicate that this is a `pages`-type widget, with content in the folder named `post`.  This file, `posts.md` is in `contents/home/` since by default the widget is displayed on the home page.
 
 
 
 
 
-# Customization: basic
+# Basic customization
 
 Now to make your website yours!  A few tips for troubleshooting while editing your website:
 
 1. If not already running, use `blogdown::serve_site()` to see how your website responds to changes you make.  (You can also open the site in a browser tab using the "show in new window" icon in the viewer pane menu bar)
 1. If changes you make do not seem to be appearing, stop and restart the local server by running `blogdown::stop_server()`, then `blogdown::serve_site()`.
-1. If that doesn't work, try stopping the local server, deleting the `resources` and `public` folders in your project's root directory, and then starting the local server again.  
-    + `resources` contains intermediary build files, and will be auto-generated as needed.
-    + `public` is generated when you build the website using the "Build" tab.  If you used the Netlify deployment option, you don't need to build it locally.
-1. Otherwise, take a look at [Alison Hill's troubleshooting guide](https://alison.rbind.io/post/2019-03-04-hugo-troubleshooting/), or go to Google.
+1. If that doesn't work, try stopping the local server, deleting the `resources/` and `public/` folders in your project's root directory, and then starting the local server again.  
+
+:::fyi
++ `resources/` contains intermediary build files, and will be auto-generated as needed.
++ `public/` is generated when you build the website using the "Build" tab.  If you opted for continuous deployment via Netlify, you don't need to build the website locally.
+:::
+
+4. Otherwise, take a look at [Alison Hill's troubleshooting guide](https://alison.rbind.io/post/2019-03-04-hugo-troubleshooting/), the [resources](#resources) linked above, other peoples' website repos ([here's mine](https://github.com/akseong/website)), or just Google it!
 
 
 
 
 ## Site config
 
-There are 3 main files:  
+There are 4 main files to edit:  
 
-+ `config.yaml`: general site configuration
-+ `config/_default/params.toml`: personal info + site feature configuration, e.g. syntax highlighting
-+ `config/_default/menus.toml`: navbar customization
++ `config.yaml`: general site configuration (next section).
++ `config/_default/params.toml`: personal info + site feature configuration, e.g. syntax highlighting.  File is heavily commented, and does a fairly good job of explaining different options.
++ `config/_default/menus.toml`: navbar configuration.  Fairly straightforward (less straightforward if you want [separate pages instead of one long scrolling page](#separate-pages)).
+
+If in doubt about a particular setting in `params.toml` or `menus.toml`, leave it for now. However, `config.yaml` requires a bit more care.
+
+
 
 ### config.yaml
 In `config.yaml` in your root directory, change the following fields:  
 
-  - `title:` site name (your name if this is a personal website)
-  - `baseurl:` set it to the url your site has been deployed to.  You didn't skip that step, did you?  If you did, you can also change it to '/'.  But it must be specified.
-  - `ignoreFiles:` Yihui Xie [recommends specifying these patterns](https://bookdown.org/yihui/blogdown/configuration.html#:~:text=at%20least%20these%20patterns).  If you've been following this guide, you have a `config.yaml` file instead of a `config.toml` file, and the only things you should need to add to the default list under `ignoreFiles` are 
+  + `title:` site name (your name if this is a personal website)
+  + `baseurl:` set it to the url (in quotes) your site has been deployed to.  You didn't skip that step, did you?  If you did, you can also change it to '/'.  But it must be specified.  
+      - include "https://" in the url.  Also, see [Yihui Xie's post on redirecting HTTP to HTTPS](https://yihui.org/en/2017/11/301-redirect/#an-application-redirect-http-links-to-to-https)
+  + `ignoreFiles:` Yihui Xie [recommends specifying these regex patterns](https://bookdown.org/yihui/blogdown/configuration.html#:~:text=at%20least%20these%20patterns).  If you've been following this guide so far, you have a `config.yaml` file instead of a `config.toml` file (as in the link).  The only things you should need to add to the default list under `ignoreFiles` are 
+  
 ```{r}
     - \.knit\.md$
     - \.utf8\.md$
@@ -374,7 +391,9 @@ In `config.yaml` in your root directory, change the following fields:
 
 
 :::fyi
-Some people recommend including `"_files$"` in `ignoreFiles`, but this will make the plotting fix not work later.
+Some guides recommend including `"_files$"` in `ignoreFiles`, `r colorhtml("but this will break plots in .Rmd-generated posts")`.  
+
+[Alison Hill's slides](https://arm.rbind.io/slides/blogdown.html#29) recommend including it, so I'm assuming it's fine to include it if you're working with the Ada theme and/or deploying via drag/drop as her guide recommends --- in other words, if you're actually following her guide!
 :::
 
 
@@ -384,21 +403,11 @@ relativeURLs: yes
 canonifyURLs: yes
 ```
 
-+ `relativeURLs: yes` is necessary for cloud setup.  Also, if you don't specify your `baseurl`, some external links will break (found this out when trying to make a link to github in my nav bar).
++ `relativeURLs: yes` is necessary for cloud setup.  Also, if you don't specify your `baseurl`, some external links will break (spent an hour until I figured this out when trying to make a link to github in my nav bar --- worked in my local build, but not when deployed).
 
 + `cannonifyURLs: yes`: my understanding is that this makes it so that other people sharing your content via social media will link back to your actual website.
 
-Last, beneath `permalinks`, add `post: /:year/:month/:day/:slug/` (follow indents).
-
-
-### params.toml
-math = true
-
-
-### menus.toml
-
-- new pages instead of just one long scrolling page
-
+Last, beneath `permalinks`, I suggest adding `post: /:year-:month-:day/:slug/` (follow indents; modifies post urls, e.g. ".../2020-12-28/make-website/" rather than ".../post/make-website/").
 
 
 
@@ -406,41 +415,109 @@ math = true
 
 ## Your info
 
-First, I'd suggest going to `content/home/hero.md` and `content/home/demo.md` and setting `active: false` so that the `about.md` widget is at the top (alternatively, set the `weight` fields to something >20 so that they appear later on the page).  It will just be easier to see (using `blogdown::serve_site()`) the changes you're making.  You can always reactivate these widgets or reorder them later.
+:::fyi
+For ease of editing, bring the `about.md` widget to the top of the page by deactivating the `hero.md` and `demo.md` widgets in `content/home/` (set `active: false`), or make these widgets come after the `about.md` widget (set `weight:` > 20).  It will just be easier to see (using `blogdown::serve_site()`) the changes you're making.  You can always reactivate/reorder these widgets later.
+:::
 
-Now, the `about.md` widget in `content/home` draws its info from the folder `content/authors/admin/`.  
+The `about.md` widget in `content/home/` uses info from the folder `content/authors/admin/`.  
 
-  + For the text, edit `_index.md` with your info.  Most of it should be self-explanatory, especially if you look at the served website while editing, but note that the `bio:` field in the header is what appears next to your name at the end of posts, not in the section generated by the "about" widget.
-+ Add your picture by placing a .jpg image into `content/authors/admin` and naming it `avatar.jpg`
++ For the text, edit `_index.md` with your info.  _Quick note:_ the `bio:` field in the header is what appears next to your name at the end of posts, not in the section generated by the "about" widget.
++ Add your picture by placing a .jpg image into `content/authors/admin/` and naming it `avatar.jpg`
+
 
 
 ## Other widgets
 
-Poke around `content/home`, and deactivate the widgets you don't want by setting `active: false`
+Poke around `content/home/` and modify the content of the different widgets with your info.
 
-
-- baseurl
-- themes/fonts
-- authors --> admin
-
-
-
-
-
-:::note
-The "public" folder contains the actual website.  My understanding is that the "resources" folder contains intermediary files.  The other stuff
-:::
++ deactivate the widgets you don't want by setting `active: false`.  In general I would not delete these, as they are useful templates.
++ modify the order in which widgets appear using the `weight:` parameter (lower numbers = higher on page)
 
 
 
 
 
+
+
+# Troubleshooting / adding desired functionality
 
 ## Modification to fix plotting
 
-As mentioned earlier, plots generated by code chunks in .Rmd files were not showing up on my website.  This fixed it:  
+As mentioned waaaay earlier, plots generated by code chunks in .Rmd files were not showing up on my website.  This fixed it for me:  
 
 1. create a setting in your `.Rprofile` to initialize new blog posts with a [page bundle](https://alison.rbind.io/post/2019-02-21-hugo-page-bundles/#hugo-page-bundles).
+
+```{r}
+library(usethis)
+edit_r_profile()
+options(blogdown.new_bundle = TRUE)
+```
+
+2. in `config.yaml` (root folder; these should already be OK if you've followed this guide)
+  + `relativeURLs: yes`
+  + `_files$` __`r colorhtml("MUST NOT BE")`__  under `ignoreFiles:`
+
+My guess is that using page bundles and relative urls ensure that the built html page refers to the `*_files/` folder to source the images.  Again, this _was_ my first rodeo with blogdown and Hugo, so I do not know whether all of these steps are necessary --- I just know that plots weren't working before I changed these things, and then started showing up after I did these things.  It is entirely possible that only some of these things were necessary, but all of these things are recommended in the slides by Allison Hill anyways, _except_ for taking out `_files$` from `ignoreFiles:`.
+
+
+
+## Add anchor link icons to post headings
+
++ [this worked for me](https://ericbryantphd.com/2020/01/13/add-section-links-in-blogdown/#my-solution)
+
++ [this looks intriguing](https://github.com/rstudio/hugo-graphite/issues/38), but I couldn't figure out exactly what was happening.
+
++ [while writing this post, I found this solution by Gandalf, erm Yihui Xie](https://yihui.org/en/2018/11/md-js-tricks/#how-to-add-anchor-links-to-section-headings).  I just tried this, but there must be some steps left out that would be obvious to someone who uses javascript/blogdown/html/Hugo a lot, which is not me.
+
+
+## ToC placement
+
+Generating a table of contents using the built-in shortcodes or .Rmd header puts the table of contents first.  This is usually a good thing, except it can take up your entire post preview (i.e. the text you see below the post titles [here](/post_landing/){target="_blank"}.  
+
+[Here's a workaround from Garrick Aden-Buie](https://www.garrickadenbuie.com/blog/add-a-generated-table-of-contents-anywhere-in-rmarkdown/) so that you can place the table of contents anywhere you'd like.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Customization: advanced
+
+## Themes / Fonts
+
+## separate pages
+`config/_default/menus.toml`
+If you would like your website to be split across multiple separate pages (as opposed to one long scrolling page), 
+
+- new pages instead of just one long scrolling page
+index.md
+
+```
+widget: pages              # <-- widget type
+...<other options>...
+page_type: post            # <-- where to find the content for the widget
+```
+
+## widget backgrounds
+look at widgets that have backgrounds already (e.g. `contents/home/demo.md`), copy stuff. 
++ static
+
+
+
 
 
 
@@ -452,12 +529,6 @@ As mentioned earlier, plots generated by code chunks in .Rmd files were not show
 - wowchemy file structure
 - deleting examples
 - .rmd support
-
-
-
-
-
-
 
 
 
