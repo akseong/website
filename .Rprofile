@@ -24,6 +24,7 @@ options(blogdown.author = "Arnie",
         blogdown.new_bundle = TRUE,
         blogdown.title_case = TRUE)
 
+# server for liveReload https://slides.yihui.org/2018-blogdown-rstudio-conf-Yihui-Xie.html#20
 options(
   blogdown.generator.server = TRUE,
   blogdown.hugo.server = c('-D', '-F', '--navigateToChanged'))
