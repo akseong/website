@@ -35,6 +35,14 @@ a.nav-link:hover:after {
 
 
 
+
+
+/* no underline on floating table of contents links */
+#TableOfContents .nav-link:hover:after {
+  width: 0%;
+}
+
+
 /*---------- BASIC STYLING -------------*/
 html {
   scroll-behavior: smooth;
@@ -47,14 +55,76 @@ h1, h2, h3, h4 {
   color: DarkTurquoise !important;
 }
 
-.caption {
-  color: darkgray;
+
+
+
+
+
+
+
+/* For 2-column article layout with TOC on right */
+.article-container {
+	max-width: 1000px;
 }
 
-/* make bold fonts bolder */
-strong {
-  font-weight:800;
+
+.col-lg-2ish {
+  flex:0 0 20%;
+  max-width:20%;
+  padding-right: 0px !important;
+ }
+
+.col-lg-10ish {
+  flex:0 0 80%;
+  max-width:80%;
+ }
+
+#TableOfContents li a, .toc-top li a {
+	padding: .125rem .5rem;
 }
+
+#TableOfContents {
+	border-left: 1px solid;
+}
+
+
+
+
+
+html, body {
+  scroll-padding-top: 100px;
+}
+
+
+/* --------Blog posts--------- */
+/* Headers within blogs */
+
+.article-style h1:not(:first-child),
+.article-style h2:not(:first-child),
+.article-style h3:not(:first-child) {
+  padding-top: 2em;
+  padding-bottom: 1em;
+}
+
+/*---fix code scrolling-- */
+pre {
+  white-space: pre-wrap;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* -----------div tips------------- */
 
@@ -67,6 +137,9 @@ div.comment{
   overflow: hidden;
   margin-left: 50%;
 }
+
+
+
 
 /* Can't figure out how to make the div disappear */
 /* when it overlaps post content. */
@@ -89,7 +162,6 @@ div.aside{
 
 
 /* ------- from desiree de leon's blogpost ------ */
-
 
 div.puzzle, div.fyi, div.demo, div.note {
     padding: 1em;
@@ -130,8 +202,7 @@ div.note {
   vertical-align: super;
 }
 
-
-
+/* keep this after .section-anchor (overrides color) */
 .fa-link{
   color: #666369;
 }
@@ -166,15 +237,21 @@ div.note {
  padding-bottom: .5em;  
 }
 
-.article-style .section p,
-.article-style .section ul,
-.article-style .section li{
-  font-size: large;
+.caption {
+  color: darkgray;
 }
+
+
+/* make bold fonts bolder */
+strong {
+  font-weight:800;
+}
+
 
 /* 
 /* /* Links within blog posts */
 
+/* keep this after <a> tag styling (overrides in articles) */
 .article-style .section a{  
     color: #F76497;  
 }  
@@ -184,6 +261,23 @@ div.note {
   text-decoration: none;
 } 
 
+.article-style a{  
+    color: #F76497;  
+}  
+
+.article-style a:hover {  
+  color: #DCA0B2;  
+  text-decoration: none;
+} 
+
+
+.article-style img{
+  margin-bottom: 5px; 
+}
+
+.article-style .figure{
+  margin-bottom: 10px; 
+}
 
 
 /* -------About/Home Section-------- */
