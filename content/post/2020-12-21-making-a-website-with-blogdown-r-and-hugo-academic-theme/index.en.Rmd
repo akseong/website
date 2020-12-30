@@ -21,21 +21,29 @@ image:
 projects: []
 ---
 
-```{r openingchunk, echo=FALSE, eval=TRUE}
+
+
+```{r setup, echo=FALSE, eval=TRUE}
 knitr::opts_chunk$set(message=FALSE, 
                       eval=FALSE,
                       warning=FALSE,
                       echo=TRUE)
 
-render_toc <- function(
+blogdown_toc <- function(
   filename, 
   toc_header_name = "Table of Contents",
   base_level = NULL,
   toc_depth = 3
 ) {
-  # credit Garrick Aden-Buie
+  # credit original: Garrick Aden-Buie, render_toc function
   # https://www.garrickadenbuie.com/blog/add-a-generated-table-of-contents-anywhere-in-rmarkdown/
-  # added ignore {-}
+  # for Rmarkdown html_document, use the original above.
+  # modified to use with **blogdown/Hugo-generated anchor links** 
+  #   in combination with https://ericbryantphd.com/2020/01/13/add-section-links-in-blogdown/#my-solution
+  # modifications: Ignore headers with {-} 
+  #                Ignore punctuation/special chars EXCEPT periods
+  # warning:       Does not handle headers with punctuation marks not used for formatting
+  #                (e.g. double underscore for bold font, )
   x <- readLines(filename, warn = FALSE)
   x <- paste(x, collapse = "\n")
   x <- paste0("\n", x, "\n")
@@ -46,7 +54,7 @@ render_toc <- function(
   x <- strsplit(x, "\n")[[1]]
   x <- x[grepl("^#+", x)]
   x <- x[!grepl("^# \\{", x)]
-  x <- x[!grepl("\\{-\\}", x)]  #ignore headings containing "{-}"
+  x <- x[!grepl("\\{-\\}", x)]       # ADDED: ignore headings containing "{-}"
   if (!is.null(toc_header_name)) 
     x <- x[!grepl(paste0("^#+ ", toc_header_name), x)]
   if (is.null(base_level))
@@ -68,9 +76,14 @@ render_toc <- function(
     } else {
       header_text <- gsub("#+\\s+?", "", h)
       header_text <- gsub("\\s+?\\{.+\\}\\s*$", "", header_text) # strip { .tabset ... }
-      header_text <- gsub("^[^[:alpha:]]*\\s*", "", header_text) # remove up to first alpha char
-      header_slug <- paste(strsplit(header_text, " ")[[1]], collapse="-")
-      header_slug <- tolower(header_slug)
+      header_text <- gsub("^[^[:alpha:]]*\\s*", "", header_text) # remove up to first alpha char  
+      # ADDED: strip special characters, then replace multiple spaces with dash
+      # This works with blogdown/hugo-generated anchors
+      # But not basic rmarkdown html_document anchors
+      pre_slug <- gsub("[^-.a-zA-Z0-9 ]", "", header_text)
+      pre_slug <- gsub('---', ' ', pre_slug)  # special case - long dash
+      pre_slug <- gsub('\\s+', '-', pre_slug)
+      header_slug <- tolower(pre_slug) 
     }
     if (header_text != ""){
       paste0(strrep(" ", level * 4), "- [", header_text, "](#", header_slug, ")")
@@ -89,7 +102,7 @@ colorhtml <- function(x, color="MediumOrchid") {
 
 
 # Why use this guide? {-}
-This is less a guide I wrote and more a mixture of guides/info from different sources (mostly by Alison Hill and Yihui Xie) annotated with my observations as a first-time user.  If you want a more streamlined guide, [Alison Hill's 2019 slides on starting a website with __blogdown__ and Hugo](https://arm.rbind.io/slides/blogdown.html){target="_blank"} are the bees' knees, though not specific to the Academic Theme.  
+This is less a guide I wrote and more a mixture of guides/info from different sources (mostly by Alison Hill and Yihui Xie) annotated with my observations as a first-time user.  If you want a more streamlined guide, [Alison Hill's 2019 slides on starting a website with __blogdown__ and Hugo](https://arm.rbind.io/slides/blogdown.html) are the bees' knees, though not specific to the Academic Theme.  
 
 A few reasons you might want to use this guide anyways: it's the most recent as of this writing :sunglasses:, I'll detail some tricks / workarounds / failures, and I borrow `r colorhtml("heavily")` from Alison Hill's guide anyways.  
 
@@ -99,8 +112,8 @@ regarding recentness: it's actually a little important to follow a recent guide 
 
 
 
-## Who is this meant for? {-}
-I decided to write this in large part to document what I did so that I can work on my website in the future, and __blogdown_ + Hugo can be [finicky as #$*!](https://yihui.org/en/2018/02/marie-dussault/#:~:text=BTW,amusing){target="_blank"} but hopefully this post can save you some pain and frustration if you are also a first-time user. 
+## Who is this meant for?
+I decided to write this in large part to document what I did so that I can work on my website in the future, and __blogdown__ + Hugo can be [finicky as #$*!](https://yihui.org/en/2018/02/marie-dussault/#:~:text=BTW) but hopefully this post can save you some pain and frustration if you are also a first-time user. 
 
 So, essentially, this guide is meant for people like me a week ago: I use R, __rmarkdown__, and GitHub daily, but I had roughly, oh, about exactly zero experience with HTML, Hugo, or the __blogdown__ package.  
 
@@ -108,18 +121,17 @@ Also worth mentioning: I'm on a PC, so things might be a bit different for you M
 
 
 
-## Caveats {-}
+## Caveats
 I am not an expert on any of this!  I just started using this!  Some of the suggestions here may be sub-optimal, because basically if things worked I moved on.  Please feel free to let me know if you know of better ways to do any of this!
 
 
 
 
-
-
-# Table of Contents:
+# Table of Contents: {#toc}
 ```{r echo=FALSE, eval=TRUE}
-render_toc(filename="index.en.Rmd", toc_depth = 2)
+blogdown_toc(filename="index.en.Rmd", toc_depth = 2)
 ```
+
 
 
 
@@ -132,7 +144,7 @@ As mentioned earlier, Academic Theme for Hugo had a big update earlier this year
   1. its folder structure changed, and 
   1. how it, um, handles some stuff is like, different.  (I really have no idea :shrug:)
 
-A major thing that did not work for me was that __plots from .Rmd code chunks__ were not rendering. [Apparently __blogdown__ auto-detects and moves them](https://bookdown.org/yihui/blogdown/dep-path.html){target="_blank"} to the `static/` folder, so I suspect they weren't rendering because the folder structure changed.  Though it could just have been user error or some outdated settings.  Or the fact that my computer is mostly duct tape, [pasta](https://en.wikipedia.org/wiki/Alien_(film)#:~:text=pasta), and a hamster wheel.  
+A major thing that did not work for me was that __plots from .Rmd code chunks__ were not rendering. [Apparently __blogdown__ auto-detects and moves them](https://bookdown.org/yihui/blogdown/dep-path.html) to the `static/` folder, so I suspect they weren't rendering because the folder structure changed.  Though it could just have been user error or some outdated settings.  Or the fact that my computer is mostly duct tape, [pasta](https://twitter.com/alienanthology/status/1172190147665911808), and a hamster wheel.  
 
 
 
@@ -141,17 +153,17 @@ A major thing that did not work for me was that __plots from .Rmd code chunks__ 
 
 (ordered from most used to least used)
 
-1. [slides by Alison Hill](https://arm.rbind.io/slides/blogdown.html){target="_blank"}
+1. [slides by Alison Hill](https://arm.rbind.io/slides/blogdown.html)
     - These are for a different theme, but her advice is accurate, practical, and clear.  Plus it's easy to follow steps in this presentation format.
 
-1. [__blogdown__ documentation by Yihui Xie](https://bookdown.org/yihui/blogdown/hugo.html){target="_blank"}
+1. [__blogdown__ documentation by Yihui Xie](https://bookdown.org/yihui/blogdown/hugo.html)
     - Yihui Xie is basically the Gandalf of the Fellowship of R Users.  
 
-1. [Wowchemy customization guide](https://wowchemy.com/docs/customization/){target="_blank"}
+1. [Wowchemy customization guide](https://wowchemy.com/docs/customization/)
     - It was hard as a first-time user to find the info I needed here, but if/once I found it, it was helpful.
 
-1. [post by Matteo Courthoud](https://matteocourthoud.github.io/post/website/){target="_blank"} on making a website
-    - This is the guide I started off using first, leading to a rebuild.  As such, I don't recommend using this --- some of the specifics seem to be outdated.  __Follow Alison Hill's slides instead__.  I _did_, however, find it helpful to have already read Matteo's guide as I started my second attempt.  For example, the [section on Basic Customization](https://matteocourthoud.github.io/post/website/#:~:text=Basic%20Customization){target="_blank"} is helpful and specific.  Also, his color scheme is awesome and I totally copied it!
+1. [post by Matteo Courthoud](https://matteocourthoud.github.io/post/website/) on making a website
+    - This is the guide I started off using first, leading to a rebuild.  As such, I don't recommend using this --- some of the specifics seem to be outdated.  __Follow Alison Hill's slides instead__.  I _did_, however, find it helpful to have already read Matteo's guide as I started my second attempt.  For example, the [section on Basic Customization](https://matteocourthoud.github.io/post/website/#basic-customization) is helpful and specific.  Also, his color scheme is awesome and I totally copied it!
 
 
 
@@ -159,7 +171,7 @@ A major thing that did not work for me was that __plots from .Rmd code chunks__ 
 
 # Starting up:
 
-* This section is almost all from [Alison Hill's slides](https://arm.rbind.io/slides/blogdown.html){target="_blank"}.
+* This section is almost all from [Alison Hill's slides](https://arm.rbind.io/slides/blogdown.html).
 
 
 ## Install latest __blogdown__ and Hugo:
@@ -173,7 +185,7 @@ blogdown::install_hugo()
 
 + make a repo on GitHub.
 + create a new Rproject and connect it to the repo. 
-  - in Rstudio: File --> New Project --> Version Control --> Git (if you don't know how to do these things, follow [the links in Alison's slides](https://arm.rbind.io/slides/blogdown.html#9){target="_blank"}.)
+  - in Rstudio: File --> New Project --> Version Control --> Git (if you don't know how to do these things, follow [the links in Alison's slides](https://arm.rbind.io/slides/blogdown.html#9).)
 
 
 
@@ -218,9 +230,9 @@ resources/
 ```
 
 :::fyi
-If you haven't done this already, make sure your RStudio is configured to [make source files end with a newline](https://yihui.org/en/2018/04/rprofile-trailing-newline/){target="_blank"}.  
+If you haven't done this already, make sure your RStudio is configured to [make source files end with a newline](https://yihui.org/en/2018/04/rprofile-trailing-newline/).  
 
-tl/dr; when you need it, not having it breaks things, and when you don't need it, having it doesn't harm anything.  It's kind of like [Pascal's Wager](https://en.wikipedia.org/wiki/Pascal%27s_wager){target="_blank"}, just a smidge less consequential.
+tl/dr; when you need it, not having it breaks things, and when you don't need it, having it doesn't harm anything.  It's kind of like [Pascal's Wager](https://en.wikipedia.org/wiki/Pascal%27s_wager), just a smidge less consequential.
 :::
 
 
@@ -243,7 +255,7 @@ Two common options for hosting:
 ### option 1: continuous deployment via Netlify (recommended)
 
 :::fyi
-Alison Hill recommends [building the site locally, then dragging/dropping](https://arm.rbind.io/slides/blogdown.html#21){target="_blank"} the `public` folder into Netlify.  Apart from being an extra few steps --- [or just one step](https://matteocourthoud.github.io/post/website/#automation){target="_blank"} --- the main disadvantage is that this won't let you take advantage of __netlify's deploy branches__ option to test changes you make to the website before putting them out into the world.
+Alison Hill recommends [building the site locally, then dragging/dropping](https://arm.rbind.io/slides/blogdown.html#21) the `public` folder into Netlify.  Apart from being an extra few steps --- [or just one step](https://matteocourthoud.github.io/post/website/#automation) --- the main disadvantage is that this won't let you take advantage of __netlify's deploy branches__ option to test changes you make to the website before putting them out into the world.
 :::
 
 
@@ -254,7 +266,7 @@ __Steps:__
 
   <center>
   
-  ![staging a large folder in RStudio's Git   tab](https://media.giphy.com/media/qNQFUVIKAt9Ek/giphy.gif){alt="also debugging a hugo website"}
+  ![staging a large folder in RStudio's Git   tab](https://media.giphy.com/media/qNQFUVIKAt9Ek/giphy.gif "...or debugging a hugo website")
   
   </center>
 
@@ -266,17 +278,17 @@ __Steps:__
   ```
 
 
-  2. While you're waiting, set up an account at [netlify.com](netlify.com){target="_blank"}.
+  2. While you're waiting, set up an account at [netlify.com](netlify.com).
   1. Once you have an account and everything has been pushed, click "New site from Git" --> Github --> Only select repositories --> select your website repo.
-      + If you end up switching repos for some reason, you can always [give Netlify access to another repo](https://docs.netlify.com/configure-builds/repo-permissions-linking/#troubleshoot-repository-linking){target="_blank"}.
+      + If you end up switching repos for some reason, you can always [give Netlify access to another repo](https://docs.netlify.com/configure-builds/repo-permissions-linking/#troubleshoot-repository-linking).
   1. Your url will be something oddly delightful like "youthful-elephant-g0at33.netlify.app".  Change it: "Site settings" link --> "Change site name".  
-      + You can always change the site name, or set up hosting on a new domain.  [`rbind.io` is a recommended, and free, option](https://support.rbind.io/about/){target="_blank"}.
+      + You can always change the site name, or set up hosting on a new domain.  [`rbind.io` is a recommended, and free, option](https://support.rbind.io/about/).
 
 Cool!  Now whenever you push to your repo, netlify will build it and serve your website.
 
 
 :::note
-Use the branch deploy feature to preview changes (such as a new post)!  All you have to do now is create a branch __AND make a pull request__, and netlify will let you preview it!  [More details + suggested workflow here](https://www.garrickadenbuie.com/blog/blogdown-netlify-new-post-workflow/){target="_blank"}.
+Use the branch deploy feature to preview changes (such as a new post)!  All you have to do now is create a branch __AND make a pull request__, and netlify will let you preview it!  [More details + suggested workflow here](https://www.garrickadenbuie.com/blog/blogdown-netlify-new-post-workflow/).
 :::
 
 
@@ -298,7 +310,7 @@ __Done!__  Super easy, but unfortunately, whenever you want to update your websi
 
 # Folder structure: a short tour
 
-Alison Hill gives you [a short assignment](https://arm.rbind.io/slides/blogdown.html#24){target="_blank"} to figure out your folder structure, and I think it's helpful to go through.  Your folders / files are going to look a little different, though (updates since 2019, different theme).
+Alison Hill gives you [a short assignment](https://arm.rbind.io/slides/blogdown.html#24) to figure out your folder structure, and I think it's helpful to go through.  Your folders / files are going to look a little different, though (updates since 2019, different theme).
 
 _Your_ folder structure will look like this (unless it's changed yet again!):
 
@@ -310,7 +322,7 @@ _Your_ folder structure will look like this (unless it's changed yet again!):
 ├───content           
 │   ├───authors       # modify about page info in the 'admin' folder
 │   ├───courses
-│   ├───home          # splash page
+│   ├───home          # home page
 │   ├───post
 │   ├───project
 │   ├───publication
@@ -339,7 +351,7 @@ The comments above should be fairly self-explanatory, but the `content` folder i
 This is a little loose (e.g. the `contents/home/gallery` folder doesn't fit so neatly in here) but I find it useful to think of it this way.
 
 ## new page folders
-The `home` folder is the only "separate page"-type folder here right now --- the Academic Theme by default generates a 1-page website --- but you can [add new folders for new website pages](#separate-pages){target="_blank"}.  Inside `content/home`, you'll see a file `index.md`; open it up.  It should say:
+The `home` folder is the only "separate page"-type folder here right now --- the Academic Theme by default generates a 1-page website --- but you can [add new folders for new website pages](#separate-pages).  Inside `content/home`, you'll see a file `index.md`; open it up.  It should say:
 
 ```
 ---
@@ -351,19 +363,21 @@ headless: true
 ---
 ```
 
-+ `type: widget page` indicates that the page initialized by this `index.md` file (the home page) is composed of $\geq 1$ widget.
-+  the other `.md` files inside this folder (`content/home/`) are the different widgets on the home page, e.g. an "about" widget, an "accomplishments" widget, etc.
++ `type: widget page` indicates that the page initialized by this `index.md` file (the home page) is composed of widgets.
++  the other `.md` files inside this folder (`content/home/`) are the different widgets on the home page: an "about" widget, an "accomplishments" widget, etc.
 
 
 ## widget info folders
-Folders containing info used by widgets will have a file `_index.md` (note the underscore) and typically subfolders for entries.  For example, the folder `content/post/` is where your blog posts go by default, and each post gets its own subfolder inside `content/post`.  The widget that uses the content in `content/post/` is actually `contents/home/posts.md` --- a widget on the __home__ page --- which contains the lines 
+Folders containing info used by widgets will contain a file `_index.md` (note the underscore) and typically subfolders for entries.  For example, the folder `content/post/` is where your blog posts go by default, and each post gets its own subfolder inside `content/post/`.  The widget that uses the content in `content/post/` is actually `contents/home/posts.md` --- a widget on the __home__ page --- which contains the lines 
 
 ``` 
-widget: pages              # <-- widget type
+widget: pages              
 ...<other options>... 
-page_type: post            # <-- where to find the content for the widget
+page_type: post            
 ```
-These lines indicate that this is a `pages`-type widget, and that it draws its content from the folder `content/post/`.  Scroll down to the "Recent Posts" section on the homepage, and compare the posts to the folders inside `content/post/`.
+
++ `widget:pages` indicate that this is a "pages" widget
++ `page_type: post` indicates that this widget draws its content from the folder `content/post/`.  (Scroll down to the "Recent Posts" section on the homepage, and compare the posts to the folders inside `content/post/`.)
 
 
 
@@ -382,30 +396,38 @@ Now to make your website yours!  A few tips for troubleshooting while editing yo
 + `public/` is generated when you build the website using the "Build" tab.  If you opted for continuous deployment via Netlify, you don't need to build the website locally.
 :::
 
-4. Otherwise, take a look at [Alison Hill's troubleshooting guide](https://alison.rbind.io/post/2019-03-04-hugo-troubleshooting/){target="_blank"}, the [resources](#resources){target="_blank"} linked above, other peoples' website repos ([here's mine](https://github.com/akseong/website){target="_blank"}), or just Google it!
+4. Otherwise, take a look at [Alison Hill's troubleshooting guide](https://alison.rbind.io/post/2019-03-04-hugo-troubleshooting/), the [resources](#resources) linked above, Google, or other peoples' website repos!
+    + [my repo](https://github.com/akseong/website)
+    + [Nan-Hung Hsieh's repo](https://github.com/rbind/nanhung), and [website](https://nanhung.rbind.io/)
+        - doesn't deviate from template too much
+    + [Alison Hill's repo](https://github.com/rbind/apreshill/), and [website](https://alison.rbind.io/);
+        - more advanced customization
+    + [Yihui Xie's repo](https://github.com/rbind/yihui), and [website](yihui.org)
+        - looks simple, but very advanced customization
+
 
 
 
 
 ## Site config
 
-There are 4 main files to edit:  
+There are 3 main files to edit:  
 
 + `config.yaml`: general site configuration (next section).
 + `config/_default/params.toml`: personal info + site feature configuration, e.g. syntax highlighting.  File is heavily commented, and does a fairly good job of explaining different options.
-+ `config/_default/menus.toml`: navbar configuration.  Fairly straightforward (less straightforward if you want [separate pages instead of one long scrolling page](#separate-pages){target="_blank"}).
++ `config/_default/menus.toml`: navbar configuration.  Fairly straightforward (less straightforward if you want [separate pages instead of one long scrolling page](#separate-pages)).
 
 If in doubt about a particular setting in `params.toml` or `menus.toml`, leave it for now. However, `config.yaml` requires a bit more care.
 
 
 
 ### config.yaml
-In `config.yaml` in your root directory, change the following fields:  
+In your root directory, change the following fields in `config.yaml`:  
 
   + `title:` site name (your name if this is a personal website)
   + `baseurl:` set it to the url (in quotes) your site has been deployed to.  You didn't skip that step, did you?  If you did, you can also change it to '/'.  But it must be specified.  
-      - include "https://" in the url.  Also, see [Yihui Xie's post on redirecting HTTP to HTTPS](https://yihui.org/en/2017/11/301-redirect/#an-application-redirect-http-links-to-to-https){target="_blank"}
-  + `ignoreFiles:` Yihui Xie [recommends specifying these regex patterns](https://bookdown.org/yihui/blogdown/configuration.html#:~:text=at%20least%20these%20patterns){target="_blank"}.  If you've been following this guide so far, you have a `config.yaml` file instead of a `config.toml` file (as in the link).  The only things you should need to add to the default list under `ignoreFiles` are 
+      - include "https://" in the url.  Also, see [Yihui Xie's post on redirecting HTTP to HTTPS](https://yihui.org/en/2017/11/301-redirect/#an-application-redirect-http-links-to-to-https)
+  + `ignoreFiles:` Yihui Xie [recommends specifying some regex patterns](https://bookdown.org/yihui/blogdown/configuration.html#options).  If you've been following this guide so far, you have a `config.yaml` file instead of a `config.toml` file (as in the link).  The only thing you need to do in order to match Yihui Xie's recommendations is to add the following to the default list under `ignoreFiles`
   
 ```{r}
     - \.knit\.md$
@@ -414,13 +436,13 @@ In `config.yaml` in your root directory, change the following fields:
 
 
 :::fyi
-Some guides recommend including `"_files$"` in `ignoreFiles`, `r colorhtml("but this will break plots in .Rmd-generated posts")`.  
+Some guides recommend including `"_files$"` in `ignoreFiles`, __but this will break plots in .Rmd-generated posts__.  
 
-[Alison Hill's slides](https://arm.rbind.io/slides/blogdown.html#29){target="_blank"} recommend including it, so I'm assuming it's fine to include it if you're working with the Ada theme and/or deploying via drag/drop as her guide recommends --- in other words, if you're actually following her guide!
+[Alison Hill's slides](https://arm.rbind.io/slides/blogdown.html#29) recommend including it, so I'm assuming it's fine to include it if you're working with the Ada theme and/or deploying via drag/drop as her guide recommends --- in other words, if you're actually following her guide!
 :::
 
 
-Add the lines (I put these right beneath `baseurl:`):
+Almost done.  Add the lines (I put these right beneath `baseurl:`):
 ```{r}
 relativeURLs: yes
 canonifyURLs: yes
@@ -430,7 +452,7 @@ canonifyURLs: yes
 
 + `cannonifyURLs: yes`: my understanding is that this makes it so that other people sharing your content via social media will link back to your actual website.
 
-Last, beneath `permalinks`, I suggest adding `post: /:year-:month-:day/:slug/` (follow indents; modifies post urls, e.g. ".../2020-12-28/make-website/" rather than ".../post/make-website/").
+Last, beneath `permalinks`, I suggest adding `post: /:year-:month-:day/:slug/` (follow indents; this modifies post urls, e.g. ".../2020-12-28/make-website/" rather than ".../post/make-website/").
 
 
 
@@ -468,7 +490,7 @@ Poke around `content/home/` and modify the content of the different widgets with
 
 As mentioned waaaay earlier, plots generated by code chunks in .Rmd files were not showing up on my website.  This fixed it for me:  
 
-1. create a setting in your `.Rprofile` to initialize new blog posts with a [page bundle](https://alison.rbind.io/post/2019-02-21-hugo-page-bundles/#hugo-page-bundles){target="_blank"}.
+1. create a setting in your `.Rprofile` to initialize new blog posts with a [page bundle](https://alison.rbind.io/post/2019-02-21-hugo-page-bundles/#hugo-page-bundles).
 
 ```{r}
 library(usethis)
@@ -486,18 +508,18 @@ My guess is that using page bundles and relative urls ensure that the built html
 
 ## Add anchor link icons to post headings
 
-+ [this worked for me](https://ericbryantphd.com/2020/01/13/add-section-links-in-blogdown/#my-solution){target="_blank"}
++ [this worked for me](https://ericbryantphd.com/2020/01/13/add-section-links-in-blogdown/#my-solution)
 
-+ [this looks intriguing](https://github.com/rstudio/hugo-graphite/issues/38){target="_blank"}, but I couldn't figure out exactly what was happening.
++ [this looks intriguing](https://github.com/rstudio/hugo-graphite/issues/38), but I couldn't figure out exactly what was happening.
 
-+ [while writing this post, I found this solution by Gandalf, erm Yihui Xie](https://yihui.org/en/2018/11/md-js-tricks/#how-to-add-anchor-links-to-section-headings){target="_blank"}.  I just tried this, but there must be some steps left out that would be obvious to someone who uses javascript/blogdown/html/Hugo a lot, which is not me.
++ [while writing this post, I found this solution by Gandalf, erm Yihui Xie](https://yihui.org/en/2018/11/md-js-tricks/#how-to-add-anchor-links-to-section-headings).  I just tried this, but there must be some steps left out that would be obvious to someone who uses javascript/blogdown/html/Hugo a lot, which is not me.
 
 
 ## ToC placement
 
-Generating a table of contents using the built-in shortcodes or .Rmd header puts the table of contents first.  This is usually a good thing, except it can take up your entire post preview (i.e. the text you see below the post titles [here](/post_landing/){target="_blank"}.  
+Generating a table of contents using the built-in shortcodes or .Rmd header puts the table of contents first.  This is usually a good thing, except it can take up your entire post preview (i.e. the text you see below the post titles [here](/post_landing/).  
 
-[Here's a workaround from Garrick Aden-Buie](https://www.garrickadenbuie.com/blog/add-a-generated-table-of-contents-anywhere-in-rmarkdown/){target="_blank"} so that you can place the table of contents anywhere you'd like.
+[Here's a workaround from Garrick Aden-Buie](https://www.garrickadenbuie.com/blog/add-a-generated-table-of-contents-anywhere-in-rmarkdown/) so that you can place the table of contents anywhere you'd like.
 
 
 
@@ -508,8 +530,8 @@ https://slides.yihui.org/2018-blogdown-rstudio-conf-Yihui-Xie.html#20
 
 
 
-
-
+## code folding
+https://www.jepusto.com/code-folding-update/
 
 
 
@@ -543,9 +565,7 @@ look at widgets that have backgrounds already (e.g. `contents/home/demo.md`), co
 
 
 
-https://github.com/rbind/apreshill/
-https://github.com/rbind/yihui
-https://github.com/rbind/nanhung
+
 
 # general notes
 
