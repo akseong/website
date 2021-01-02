@@ -58,16 +58,12 @@ h1, h2, h3, h4 {
 
 
 
-
-
-
-
 /* For 2-column article layout with TOC on right */
 .article-container {
 	max-width: 1000px;
 }
 
-
+/* if using April Hill's single.html layout */
 .col-lg-2ish {
   flex:0 0 20%;
   max-width:20%;
@@ -78,6 +74,8 @@ h1, h2, h3, h4 {
   flex:0 0 80%;
   max-width:80%;
  }
+
+
 
 #TableOfContents li a, .toc-top li a {
 	padding: .125rem .5rem;
@@ -99,12 +97,19 @@ html, body {
 /* --------Blog posts--------- */
 /* Headers within blogs */
 
-.article-style h1:not(:first-child),
-.article-style h2:not(:first-child),
-.article-style h3:not(:first-child) {
+.article-style h1 {
+  text-transform: none;
   padding-top: 2em;
   padding-bottom: 1em;
 }
+
+.article-style h2,
+.article-style h3 {
+  text-transform: none;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
 
 /*---fix code scrolling-- */
 pre {
@@ -207,7 +212,7 @@ div.note {
   color: #666369;
 }
 .fa-link:hover {
-    color: #F76497;
+  color: #F76497;
 }
 
 /* stroke */
@@ -225,26 +230,25 @@ div.note {
 /* --------Blog posts--------- */
   /* from desiree de leon */
   
-.article-style .section.level1 h1 {  
- padding-top: 2em;  
- padding-bottom: .5em;  
- /*font-weight: 700;  */
-}  
 
-.article-style .section.level2 h2,  
-.article-style .section.level3 h3 {
- padding-top: 2em;  
- padding-bottom: .5em;  
-}
 
 .caption {
   color: darkgray;
 }
 
 
+div.img {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  color: darkgrey;  
+}
+
+
+
 /* make bold fonts bolder */
 strong {
-  font-weight:800;
+  font-weight:750;
 }
 
 
@@ -252,24 +256,15 @@ strong {
 /* /* Links within blog posts */
 
 /* keep this after <a> tag styling (overrides in articles) */
-.article-style .section a{  
-    color: #F76497;  
-}  
-
-.article-style .section a:hover {  
-  color: #DCA0B2;  
-  text-decoration: none;
-} 
 
 .article-style a{  
     color: #F76497;  
 }  
 
 .article-style a:hover {  
-  color: #DCA0B2;  
+  color: #DCA0B2 !important;  
   text-decoration: none;
 } 
-
 
 .article-style img{
   margin-bottom: 5px; 
@@ -282,28 +277,22 @@ strong {
 
 /* -------About/Home Section-------- */
   
-   .home-section.wg-about { 
-     padding-top: 50px;
-     margin-top: 0px; 
-     /*box-shadow: 0px -50px 50px 50px rgba(252, 252, 252, 1); */
-  
-   }
+.home-section.wg-about { 
+  padding-top: 50px;
+  margin-top: 0px; 
+  /*box-shadow: 0px -50px 50px 50px rgba(252, 252, 252, 1); */
+}
 
-  #about .portrait-title h2 {   
-   margin-top: 50px;   
-   margin-bottom: 30px;    
+#about .portrait-title h2 {   
+  margin-top: 50px;   
+  margin-bottom: 30px;    
  }  
 
 
-
-
-
-/*----------   ABOUT  ----------*/
-  
 #about .portrait-title h3 {  
-text-transform: lowercase !important;  
-/*font-family: "Open Sans";  */
-margin-top: 10px;  
+  text-transform: lowercase;  
+  /*font-family: "Open Sans";  */
+  margin-top: 10px;  
 }  
 
 

@@ -1,5 +1,5 @@
 {{- define "main" -}}
-<!-- only shows table of contents if word count > 400 and toc:yes specified in header yaml -->
+<!-- only shows table of contents if toc large enough specified in header yaml -->
 {{ if gt (len .TableOfContents) 80}}
 
   <!-- This section from -->
@@ -15,9 +15,15 @@
             {{ .TableOfContents }}
             {{ partial "docs_toc_foot" . }}
           </div>
-          <main class="col-12 col-md-0 col-xl-6 py-md-3 pl-md-5 docs-content" role="main">
+
+          <main class="col-12 col-md-0 col-xl-5 py-md-3 pl-md-5 docs-content" role="main">
+{{ end }}            
+
+
+
+            <!-- always executed -->
             <article class="article">
-          <!-- mostly the original -->
+            <!-- mostly the original -->
               {{ partial "page_header" . }}
           
               <div class="article-container">
@@ -40,28 +46,14 @@
           
               </div>
             </article>
-          </main>
+
+            
+            
+            
+{{ if gt (len .TableOfContents) 80}}
+            </main>
         </div>
       </div>  
-
-{{ else }}
-
-     <article class="article">
-      <!-- mostly the original -->
-        {{ partial "page_header" . }}
-      
-        <div class="article-container">
-      
-          <div class="article-style">
-            {{ partial "anchored-headings.html" .Content }}
-            <!-- originally, just had here -->
-            <!-- {{ .Content }} -->
-          </div>
-      
-          {{ partial "page_footer" . }}
-      
-        </div>
-      </article>
     
 {{ end }}
 {{- end -}}

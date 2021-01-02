@@ -1,43 +1,61 @@
 {{- define "main" -}}
+<!-- only shows table of contents if toc large enough specified in header yaml -->
+{{ if gt (len .TableOfContents) 80}}
 
-<article class="article">
-  
-  {{ partial "page_header" . }}
-  
-  <div class="article-container">
-    
-    <div class="row">
-    
-      <div class="col-12 col-lg-10ish article-style">
-        <!-- retain anchored-headings for .rmd-generated files -->
-        {{ partial "anchored-headings.html" .Content }}
+  <!-- This section from -->
+  <!-- https://ma.ttias.be/adding-a-sticky-table-of-contents-in-hugo-to-posts/  -->
+    <div class="container-fluid docs">
+        <div class="row flex-xl-nowrap">
+          <div class="d-none d-xl-block col-xl-3">
+          </div>
+          <div class="d-none d-xl-block col-xl-3 docs-toc">
+            <ul class="nav toc-top">
+              <li><a href="#" id="back_to_top" class="docs-toc-title">{{ i18n "on_this_page" }}</a></li>
+            </ul>
+            {{ .TableOfContents }}
+            {{ partial "docs_toc_foot" . }}
+          </div>
+
+          <main class="col-12 col-md-0 col-xl-6 py-md-3 pl-md-5 docs-content" role="main">
+{{ end }}            
+
+
+
+            <!-- always executed -->
+            <article class="article">
+            <!-- mostly the original -->
+              {{ partial "page_header" . }}
+          
+              <div class="article-container">
+          
+                <div class="article-style">
+                  {{ partial "anchored-headings.html" .Content }}
+                  <!-- originally, just had here -->
+                  <!-- {{ .Content }} -->
+                  <script src="https://utteranc.es/client.js"
+                          repo="akseong/website"
+                          issue-term="title"
+                          label=":crystal_ball: comments"
+                          theme="github-light"
+                          crossorigin="anonymous"
+                          async>
+                  </script>
+                </div>
+            
+              {{ partial "page_footer" . }}
+          
+              </div>
+            </article>
+
+            
+            
+            
+{{ if gt (len .TableOfContents) 80}}
+        </main>
       </div>
-      
-      <div class="col-12 col-lg-2ish docs-toc">
-        <!-- only show table of contents if several headings -->
-        {{ if gt (len .TableOfContents) 80}}
-          <ul class="nav toc-top">
-            <li><a href="#" id="back_to_top" class="docs-toc-title">{{ i18n "on_this_page" }}</a></li>
-          </ul>
+    </div>  
     
-          {{ .TableOfContents }}
-    
-          {{ partial "docs_toc_foot" . }}
-        {{ end }}
-      </div>
-    </div>
-      <div class="col-12 col-lg-10ish article-style">
-      <script src="https://utteranc.es/client.js"
-          repo="akseong/website"
-          issue-term="title"
-          label=":crystal_ball: comments"
-          theme="github-light"
-          crossorigin="anonymous"
-          async>
-      </script>
-      </div>
-    {{ partial "page_footer" . }}
-  </div>
-</article>
+{{ end }}
+
 
 {{- end -}}
