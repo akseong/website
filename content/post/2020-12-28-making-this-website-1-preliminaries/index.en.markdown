@@ -1,8 +1,8 @@
 ---
-title: 'Making this website 1: Preliminaries'
+title: 'Making a website with blogdown & Academic Theme for Hugo 1: setup to basic customization'
 author: Arnie
-date: '2020-12-29'
-slug: making-of-1
+date: '2020-12-28'
+slug: website-setup
 categories:
   - hugo
   - blogdown
@@ -14,7 +14,7 @@ tags:
 subtitle: 'join us on the glorious webtubeways of the blagoblag!'
 summary: ''
 authors: []
-lastmod: '2020-12-29T22:48:56-08:00'
+lastmod: '2021-01-03T10:48:56-08:00'
 featured: no
 image:
   caption: 'https://xkcd.com/181/'
@@ -35,13 +35,15 @@ markup:
 
 
 
-This is the first post in a series on building a website with R, __blogdown__, and the Academic Theme for Hugo.  The next posts will cover quality-of-life tweaks, and more advanced customization.
+This is the first post in a series on building a website with R, __blogdown__, and the Academic Theme for Hugo.  The next post will cover quality-of-life tweaks, and more advanced customization.
 
 
-<div class=note>
+# Update: Jan 3, 2021:
 
-__Update: Jan 4:__ Alison Hill has a [new post](https://alison.rbind.io/post/new-year-new-blogdown/) on setting up your website using Academic Theme.  Published while I was writing this one up, and she's the expert.
-</div>
+The main reason I thought this post was worth writing was that Alison Hill's last published guide preceded major updates to the Academic theme for Hugo.  But she has [a new post on setting up your website using __blogdown__ and Academic Theme for Hugo](https://alison.rbind.io/post/new-year-new-blogdown/), i.e. the topic of this post.
+
+You should use hers as your primary guide --- there is like 90% overlap and she's the expert --- and maybe check here if you need a beginner's perspective on particular topics.
+
 
 
 # Intro:
@@ -49,7 +51,7 @@ __Update: Jan 4:__ Alison Hill has a [new post](https://alison.rbind.io/post/new
 This is less a guide I wrote and more a mixture of guides/info from different sources (mostly by Alison Hill and Yihui Xie) annotated with my observations as __a first-time user__.  If you want a more streamlined guide, [Alison Hill's 2019 slides on starting a website with __blogdown__ and Hugo](https://arm.rbind.io/slides/blogdown.html) are the bees' knees, though not specific to the Academic Theme.  
 
 
-A few reasons you might want to use these guides anyways: it's the most recent as of this writing :sunglasses:, I'll detail some tricks / workarounds / failures, and I borrow <span style='color: MediumOrchid;'>heavily</span> from Alison Hill's guide anyways.  
+A few reasons you might want to use these guides anyways: it's the most recent as of this writing :sunglasses:, I'll detail some tricks / workarounds / failures, and I borrow <hlt> heavily </hlt> from Alison Hill's guide anyways.  
 
 <div class=fyi>
 Regarding recentness: it's actually a little important if using Academic Theme for Hugo --- it seems to have had a breaking update last year (2019).  
