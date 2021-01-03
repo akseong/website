@@ -2,22 +2,12 @@
 name = "arnie"
 
 # Optional Google font URL
-google_fonts = "Lato:400,700|Roboto|Roboto+Mono|Cutive+Mono"
+google_fonts = "Lato:400,700|Roboto|Roboto+Mono|Cutive+Mono|Raleway:500,500,600,700|Fira+Sans|FiraCode"
 # Font families
-heading_font = "Lato"
-body_font = "Roboto"
-nav_font = "Lato"
-mono_font = "Roboto Mono"
-
-
-## Optional Google font URL
-#google_fonts = "Abril+Fatface|Cutive+Mono|Josefin+Slab:300,400,600,700|Open+Sans:400,600,700,800|Raleway:300,400,500,600"
-#
-## Font families
-#heading_font = "Josefin Slab"
-#body_font = "Raleway"
-#nav_font = "Raleway"
-#mono_font = "Cutive Mono"
+heading_font = "Raleway"
+body_font = "FiraCode"
+nav_font = "Raleway"
+mono_font = "FiraCode"
 
 # Font size
 font_size = "18"

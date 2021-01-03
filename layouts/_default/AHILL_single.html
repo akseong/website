@@ -1,0 +1,43 @@
+{{- define "main" -}}
+
+<article class="article">
+  
+  {{ partial "page_header" . }}
+  
+  <div class="article-container">
+    
+    <div class="row">
+    
+      <div class="col-12 col-lg-10ish article-style">
+        <!-- retain anchored-headings for .rmd-generated files -->
+        {{ partial "anchored-headings.html" .Content }}
+      </div>
+      
+      <div class="col-12 col-lg-2ish docs-toc">
+        <!-- only show table of contents if several headings -->
+        {{ if gt (len .TableOfContents) 80}}
+          <ul class="nav toc-top">
+            <li><a href="#" id="back_to_top" class="docs-toc-title">{{ i18n "on_this_page" }}</a></li>
+          </ul>
+    
+          {{ .TableOfContents }}
+    
+          {{ partial "docs_toc_foot" . }}
+        {{ end }}
+      </div>
+    </div>
+      <div class="col-12 col-lg-10ish article-style">
+      <script src="https://utteranc.es/client.js"
+          repo="akseong/website"
+          issue-term="title"
+          label=":crystal_ball: comments"
+          theme="github-light"
+          crossorigin="anonymous"
+          async>
+      </script>
+      </div>
+    {{ partial "page_footer" . }}
+  </div>
+</article>
+
+{{- end -}}

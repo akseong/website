@@ -39,7 +39,7 @@ design:
   #   3 = Card
   #   4 = Citation (publication only)
   view: 2
-  columns: "1"
+  columns: "2"
   background:
     image: backgrounds/postlandingbubbles.jpg
     image_darken: 0.65

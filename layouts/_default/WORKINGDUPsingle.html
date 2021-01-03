@@ -16,7 +16,7 @@
             {{ partial "docs_toc_foot" . }}
           </div>
 
-          <main class="col-12 col-md-0 col-xl-6 py-md-3 pl-md-5 docs-content" role="main">
+          <main class="col-12 col-md-0 col-xl-5 py-md-3 pl-md-5 docs-content" role="main">
 {{ end }}            
 
 
@@ -51,11 +51,12 @@
             
             
 {{ if gt (len .TableOfContents) 80}}
-        </main>
-      </div>
-    </div>  
+            </main>
+        </div>
+      </div>  
     
 {{ end }}
-
-
 {{- end -}}
+
+
+

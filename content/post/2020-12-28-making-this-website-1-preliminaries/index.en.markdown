@@ -1,0 +1,423 @@
+---
+title: 'Making this website 1: Preliminaries'
+author: Arnie
+date: '2020-12-29'
+slug: making-of-1
+categories:
+  - hugo
+  - blogdown
+  - AcademicTheme
+tags:
+  - blogdown
+  - Hugo
+  - rmarkdown
+subtitle: 'join us on the glorious webtubeways of the blagoblag!'
+summary: ''
+authors: []
+lastmod: '2020-12-29T22:48:56-08:00'
+featured: no
+image:
+  caption: 'https://xkcd.com/181/'
+  focal_point: ''
+  preview_only: no
+projects: []
+toc: yes
+fig_caption: true
+markup:
+  tableOfContents:
+    endLevel: 2
+    startLevel: 1
+---
+
+
+
+
+
+
+
+This is the first post in a series on building a website with R, __blogdown__, and the Academic Theme for Hugo.  The next posts will cover quality-of-life tweaks, and more advanced customization.
+
+
+<div class=note>
+
+__Update: Jan 4:__ Alison Hill has a [new post](https://alison.rbind.io/post/new-year-new-blogdown/) on setting up your website using Academic Theme.  Published while I was writing this one up, and she's the expert.
+</div>
+
+
+# Intro:
+
+This is less a guide I wrote and more a mixture of guides/info from different sources (mostly by Alison Hill and Yihui Xie) annotated with my observations as __a first-time user__.  If you want a more streamlined guide, [Alison Hill's 2019 slides on starting a website with __blogdown__ and Hugo](https://arm.rbind.io/slides/blogdown.html) are the bees' knees, though not specific to the Academic Theme.  
+
+
+A few reasons you might want to use these guides anyways: it's the most recent as of this writing :sunglasses:, I'll detail some tricks / workarounds / failures, and I borrow <span style='color: MediumOrchid;'>heavily</span> from Alison Hill's guide anyways.  
+
+<div class=fyi>
+Regarding recentness: it's actually a little important if using Academic Theme for Hugo --- it seems to have had a breaking update last year (2019).  
+</div>
+
+
+
+
+## Who is this meant for?
+Essentially, this guide is meant for people like me a week ago: I use R, __rmarkdown__, and GitHub daily, but I had roughly, oh, about exactly zero experience with HTML, Hugo, or the __blogdown__ package.  
+
+I decided to write this in large part to document what I did so that I can work on my website in the future, particularly because __blogdown__ + Hugo [can be finicky](https://yihui.org/en/2018/02/marie-dussault/#:~:text=BTW).  Hopefully these posts can save you some pain and frustration if you are also a first-time user. 
+
+
+
+## Caveats
+I am not an expert on any of this!  I just started using these tools and, basically, if it worked, I moved on.  So some of the suggestions here are likely sub-optimal.  I tried to do my research, but please feel free to let me know if you have better ways to do any of this!
+
+
+
+
+# Preliminaries:
+
+## Note on changes to Academic Theme
+
+As mentioned earlier, Academic Theme for Hugo had a big update last year: it became part of something called Wowchemy, and this appears to have broken things for some people, or required different settings, because
+
+  1. its folder structure changed, and 
+  1. how it, um, handles some stuff is like, different.  (I really have no idea :shrug:)
+
+On my first attempt building this site, I followed an older guide; the discrepancy in folder structure was confusing, and I ended up messing around with the actual theme files :worried:.  Then plotting broke :flushed:.  Then the site didn't deploy ... and I ended up starting over :confounded:.
+
+So follow a recent guide.
+
+
+## Resources  
+
+(ordered from most used to least used)
+
+1. [slides by Alison Hill](https://arm.rbind.io/slides/blogdown.html)
+    - These are for a different theme, but she literally wrote the book (along with Yihui Xie) on __blogdown__, and it's easy to follow steps in this presentation format.  Her slides are also purty.  
+    - [Her website](https://alison.rbind.io/) and [website repo](https://github.com/rbind/apreshill) were also frequently useful to me when troubleshooting.  
+
+1. [__blogdown__ documentation by Yihui Xie](https://bookdown.org/yihui/blogdown/hugo.html)
+    - Yihui Xie is basically the Gandalf of the Fellowship of R Users.  
+
+1. [Wowchemy customization guide](https://wowchemy.com/docs/customization/)
+    - It was a little difficult as a first-time user to find the info I needed here, but if/once I found it, it was helpful!
+
+
+
+# Starting up:
+
+* This section is almost all from [Alison Hill's slides](https://arm.rbind.io/slides/blogdown.html).
+
+
+## Install latest __blogdown__ and Hugo:
+
+
+```r
+if (!requireNamespace("devtools")) install.packages('devtools')
+devtools::install_github('rstudio/blogdown')
+blogdown::install_hugo()
+```
+
+
++ make a repo on GitHub.
++ create a new Rproject and connect it to the repo. 
+  - in Rstudio: File --> New Project --> Version Control --> Git
++ if you don't know how to do these things, follow [the links in Alison's slides](https://arm.rbind.io/slides/blogdown.html#9).
+
+
+
+<div class=fyi>
+If you plan to host your website from GitHub, you will probably want to host it from a repository with the name <code>`yourGitHubusername.github.io`</code>.  So you can't use that for this step.
+</div>
+
+
+
+
+
+
+## Initialize site with Academic Theme
+
+
+```r
+library(blogdown)
+new_site(theme="gcushen/hugo-academic",
+         sample=TRUE,
+         theme_example=TRUE,
+         empty_dirs = TRUE,
+         to_yaml = TRUE)
+```
+
+After that finishes, see if the site builds locally.  
+
++ Use the "Addins" dropdown (end of the 2nd row of Rstudio's menu bar) to select "Serve site" or use
+
+
+```r
+blogdown::serve_site()
+```
+
+
+### .gitignore
+
+Add the `resources/` and `public/` folders to your `.gitignore` file so that it looks like this:
+
+```r
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+public/
+resources/
+```
+
+
+
+
+## Check deployment 
+
+Don't skip this step!  It will help you detect problems as you move forward.
+
+Two common options for hosting:
+
++ [continuous deployment via Netlify (via GitHub)](#option-1-continuous-deployment-via-netlify-recommended): awesome.  Auto-updates website when you push changes to your repo, and you can also preview/deploy branches to test changes you make to the website before putting them out into the world..
+
++ [GitHub](#option-2-github-deployment): simpler at first, but a few more steps required for deployment every time you update.
+
+
+
+
+
+### option 1: continuous deployment via Netlify (recommended)
+
+__Steps:__  
+
+  1. Push everything to your GitHub repo (you already added `resources/` and `public/` folders to your `.gitignore`, right?).  
+  + I love RStudio's Git tab, but don't use it for this unless you like clicking, and waiting, and clicking, and waiting, and....
+
+<div class=img>
+
+![staging many files in Rstudio's Git tab](/media/anguish_startrek.gif "...or debugging a hugo website") staging many files in Rstudio's Git tab
+
+</div>  
+
+
+  + Instead, in the RStudio terminal (the tab next to your console), type:
+  ```
+  git add -A               # stages everything
+  git commit -m "init"     # commit with message "init"
+  git push  
+  ```
+
+
+  2. While that's going, set up an account at [netlify.com](netlify.com).
+  1. Click "New site from Git" --> "Github" --> "Only select repositories" --> select your website repo.
+      + If you end up switching repos for some reason, you can always [give Netlify access to another repo](https://docs.netlify.com/configure-builds/repo-permissions-linking/#troubleshoot-repository-linking).
+  1. Your url will be something oddly delightful like `drowsy-koala-d7ce09.netlify.app`.
+      + Change it: "Site settings" link --> "Change site name".  
+      + You can always change the site name, or set up hosting on a new domain.  
+          - [`rbind.io` is a recommended, and free, option](https://support.rbind.io/about/).
+
+__Cool!__  Now whenever you push to your repo, netlify will build it and serve your website.
+
+
+<div class=note>
+
+Use the _branch deploy_ feature to preview changes (such as a new post)!  All you have to do now is create a branch __AND make a pull request__, and netlify will let you preview it!  [More details + suggested workflow here](https://www.garrickadenbuie.com/blog/blogdown-netlify-new-post-workflow/).
+</div>
+
+
+
+
+### option 2: Github deployment
+
+__Steps:__  
+
+1. Build the site: either use `blogdown::build_site()` or the "Build" tab (next to Environment, History, Connections) --> Build Website
+    + This builds your website locally, in a new folder named `public` in your project root directory.
+1. Push the contents of the `public` folder (not the folder itself, just what's inside) to a GitHub repo named `<yourGitHubusername>.github.io`.  For example, my repo would be named `akseong.github.io`, and that would also be the url of my website.  
+
+__Done!__  Super easy, but unfortunately, whenever you want to update your website or add content, you will need to follow these same steps.
+
+
+
+
+
+# Folder structure: a short tour
+
+Alison Hill gives you [a short assignment](https://arm.rbind.io/slides/blogdown.html#24) to figure out your folder structure, and I found it helpful to go through.  Your folders / files are going to look a little different, though (updates since 2019, different theme).
+
+_Your_ folder structure will look like this (unless it has changed yet again!):
+
+
+```md
+├───archetypes
+├───assets            # CSS, icons
+├───config            
+│   └───_default      # site customization
+├───content           
+│   ├───authors       # modify about page info in the 'admin' folder
+│   ├───courses
+│   ├───home          # home page
+│   ├───post
+│   ├───project
+│   ├───publication
+│   ├───slides
+│   └───talk
+├───data              
+│   ├───fonts         
+│   ├───themes        # "themes" = color scheme
+├───layouts           # overrides theme templates
+├───R
+├───resources         # intermediary build files - delete often
+├───static            # place for files that do not need to get "built" by Hugo
+│   ├───admin
+│   └───media         # images used with posts/projects
+└───themes            # NO TOUCH!  
+```
+
+
+The comments above should be fairly self-explanatory, but the `content` folder is worth discussing further.  
+
+The general idea is that the folders inside the `content` folder either  
+
+1. are a separate page in the website
+    - these folders contain an `index.md` file + widget `.md` files
+1. or contain info used by widgets
+    - these folders usually contain a subfolder for each piece of content, e.g. each post or project
+
+This is a little loose (e.g. the `contents/home/gallery` folder doesn't fit so neatly in here) but I find it useful to think of it this way.
+
+
+## New page folders
+The `content/home` folder is the only "separate page"-type folder here right now --- the Academic Theme by default generates a 1-page website.  Inside `content/home`, you'll see a file `index.md`; open it up.  It should say:
+
+```
+---
+# Homepage
+type: widget_page
+
+# Homepage is headless, other widget pages are not.
+headless: true
+---
+```
+
++ `type: widget page` indicates that the page initialized by this `index.md` file (the home page) is composed of widgets.
++  The other `.md` files inside this folder (`content/home/`) are the different widgets on the home page: an "about" widget, an "accomplishments" widget, etc.
++ You can add new folders like this to create new pages in your website, but you have to mimic this structure.  More on this in a later post.
+
+## Widget info folders
+Folders containing info used by widgets will contain a file `_index.md` --- note the underscore --- and typically subfolders for entries.  
+
+For example, the folder `content/post/` is where your blog posts go by default, and each post gets its own subfolder inside `content/post/`.  The widget that uses the content in `content/post/` is actually `contents/home/posts.md` (a widget on the __home__ page) which contains the lines 
+
+
+```r
+widget: pages              
+...<other options>... 
+page_type: post            
+```
+
++ `widget:pages` indicate that this is a "pages" widget
++ `page_type: post` indicates that this widget draws its content from the folder `content/post/`.  (Scroll down to the "Recent Posts" section on the homepage, and compare the posts to the folders inside `content/post/`.)
+
+
+
+
+
+# Basic customization
+
+Now to make your website yours!  
+
+## Use LiveReload
+
+If it's not already running, use `blogdown::serve_site()` to serve/host your website locally, i.e. see your website in RStudio's viewer pane.  You can also open the site in a browser tab using the "show in new window" icon in the viewer pane menu bar.  
+
+1. This is [LiveReload](https://bookdown.org/yihui/blogdown/livereload.html) --- an awesome feature!  The site refreshes on save, so you can see how your changes affect the website.... or if they broke something, which is unfortunately always a concern here.
+    
+1. If changes you make do not seem to be appearing, stop and restart the local server by running `blogdown::stop_server()`, then `blogdown::serve_site()`.
+    + You might encounter an error message about not being able to stop the server when you run `blogdown::stop_server()`, but just executing it again always stops the server for me --- so far at least :crossed_fingers:
+
+1. If your site blows up over nothing like a low-blood-sugar toddler, try stopping the local server, deleting the `resources/` and `public/` folders in your project's root directory, and then starting the local server again.  
+
+<div class=fyi>
+
++ `resources/` contains intermediary build files, and will be auto-generated as needed.
++ `public/` is generated when you build the website using the "Build" tab.
+
+</div>
+
+
+
+
+
+
+
+## Site config
+
+There are 3 main files you'll want to edit:  
+
++ `config.yaml`: general site configuration (next section).
++ `config/_default/params.toml`: personal info + site feature configuration, e.g. syntax highlighting.  
++ `config/_default/menus.toml`: navbar configuration.
+
+With LiveReload, you shouldn't have too much trouble figuring out `params.toml` (heavily commented) and `menus.toml` (fairly straightforward) --- and if in doubt about a particular setting in `params.toml` or `menus.toml`, leave it for now. 
+
+`config.yaml` requires a bit more care, however.
+
+
+
+### config.yaml
+In your root directory, change the following fields in `config.yaml`:  
+
+  + `title:` site name (your name if this is a personal website)
+  + `baseurl:` set it to the url (in quotes) your site has been deployed to.  
+      + you didn't skip that step, did you?  If you did, you can also change it to '/'.  For now.  But it must be specified.  
+      + include "https://" in the url.  Also, see [Yihui Xie's post on redirecting HTTP to HTTPS](https://yihui.org/en/2017/11/301-redirect/#an-application-redirect-http-links-to-to-https)
+  + `ignoreFiles:` add the following to the default list under `ignoreFiles`
+  
+
+```r
+    - \.knit\.md$
+    - \.utf8\.md$
+```
+
+
+<div class=fyi>
+
+I have seen some guides recommend including `"_files$"` in `ignoreFiles`, __but this will break plotting in code chunks in .Rmd-generated posts__.
+</div>
+
+
+Almost done.  Add the lines:
+
+```r
+relativeURLs: yes
+canonifyURLs: yes
+```
+
++ `relativeURLs: yes` is necessary for cloud setup.  
++ `cannonifyURLs: yes`: consolidates duplicate URLs.
+
+Last, beneath `permalinks`, I suggest adding `post: /:year-:month-:day/:slug/` (follow indents; this modifies post urls, e.g. ".../2020-12-29/making-of-1/" rather than ".../post/making-of-1/").
+
+
+
+
+## Your info
+
+<div class=fyi>
+
+For ease of editing, bring the `about.md` widget to the top of the page (deactivate the `hero.md` and `demo.md` widgets in `content/home/` by changing set `active: false`, or make these widgets come after the `about.md` widget by setting `weight:` > 20).  It will just be easier to see (using `blogdown::serve_site()`) the changes you're making.  You can always reactivate/reorder these widgets later.
+</div>
+
+The `about.md` widget in `content/home/` uses info from the folder `content/authors/admin/`.  
+
++ For the text, edit `_index.md` with your info.  _Quick note:_ the `bio:` field in the header is what appears next to your name at the end of posts, not in the section generated by the "about" widget.
++ Add your picture by placing a .jpg image into `content/authors/admin/` and naming it `avatar.jpg`
+
+
+
+## Other widgets
+
+Poke around `content/home/` and modify the content of the different widgets with your info.
+
++ deactivate the widgets you don't want by setting `active: false`.  In general I would not delete these, as they are useful templates.
++ modify the order in which widgets appear using the `weight:` parameter (lower numbers = higher on page)
+
