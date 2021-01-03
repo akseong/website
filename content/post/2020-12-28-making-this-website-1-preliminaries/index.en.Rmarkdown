@@ -1,8 +1,8 @@
 ---
-title: 'Making this website 1: Preliminaries'
+title: 'Making a website with blogdown, Academic Theme, and Hugo 1: setup to basic customization'
 author: Arnie
-date: '2020-12-29'
-slug: making-of-1
+date: '2020-12-28'
+slug: website-setup
 categories:
   - hugo
   - blogdown
@@ -14,7 +14,7 @@ tags:
 subtitle: 'join us on the glorious webtubeways of the blagoblag!'
 summary: ''
 authors: []
-lastmod: '2020-12-29T22:48:56-08:00'
+lastmod: '2021-01-03T10:48:56-08:00'
 featured: no
 image:
   caption: 'https://xkcd.com/181/'
@@ -44,12 +44,14 @@ colorhtml <- function(x, color="MediumOrchid") {
 
 
 
-This is the first post in a series on building a website with R, __blogdown__, and the Academic Theme for Hugo.  The next posts will cover quality-of-life tweaks, and more advanced customization.
+This is the first post in a series on building a website with R, __blogdown__, and the Academic Theme for Hugo.  The next post will cover quality-of-life tweaks, and more advanced customization.
 
 
 <div class=note>
 
-__Update: Jan 4:__ Alison Hill has a [new post](https://alison.rbind.io/post/new-year-new-blogdown/) on setting up your website using Academic Theme.  Published while I was writing this one up, and she's the expert.
+__Update: Jan 3:__ Alison Hill has a [new post](https://alison.rbind.io/post/new-year-new-blogdown/) on setting up your website using __blogdown__ and Academic Theme for Hugo, i.e. the topic of this post.
+
+The main reason I thought _this_ post would be helpful to others is because her last published guide was from a little while back (major updates to the theme, Hugo, and __blogdown__ since then).  __But now she's written a new one, there's like 90% overlap in topics, and she's the expert.__  I'll leave this up for now, but I'd recommend you use hers as your primary guide, and maybe check here if you need a beginner's perspective on particular topics.  Last, if there is conflicting advice, hers is probably better!
 </div>
 
 
