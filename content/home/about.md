@@ -27,8 +27,8 @@ author: admin
 design:
   columns: "1"
   background:
-    image: backgrounds/aboutocean.jpg
-    image_darken: 0.7
+    image: backgrounds/aboutoceanwide.jpg
+    image_darken: 0.5
     image_parallax: true
     image_position: center
     image_size: cover
