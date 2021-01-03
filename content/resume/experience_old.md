@@ -12,8 +12,8 @@ headless: true
 # Order that this section appears on the page.
 weight: 45
 
-title: \< 2017 
-subtitle: <a> __poet & college English instructor__ </a>
+title: \< 2017 <h3> poet & English instructor </h3>
+subtitle: 
 
 # Date format for experience
 #   Refer to https://wowchemy.com/docs/customization/#date-format

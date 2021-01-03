@@ -12,8 +12,8 @@ headless: true
 # Order that this section appears on the page.
 weight: 40
 
-title: \> 2017
-subtitle: <a> __statistician & data scientist__ </a> <br> Download my resumé [here](/media/resume.pdf) 
+title: \> 2017 <h3> statistician & data scientist </h3>
+subtitle: Download my [resumé](/media/resume.pdf) 
 
 # Date format for experience
 #   Refer to https://wowchemy.com/docs/customization/#date-format
@@ -46,7 +46,7 @@ experience:
     date_start: "2019-10-01"
     description: |-
       * Assessed omni-channel marketing strategy for national medical franchise.
-      * Identified redundant efforts worth potentially <a> &#62;$60,000/month.</a>
+      * Identified redundant efforts worth potentially <hlt> &#62;$60,000/month. </hlt>
       * Analyzed impact of recent acquisitions and strategy shift.
       * Model predictions validated in following months.
     location: Irvine, CA
@@ -69,7 +69,7 @@ design:
   columns: '2'
   background:
     image: backgrounds/expcurrbubbles.jpg
-    image_darken: 0.5
+    image_darken: 0.4
     image_parallax: true
     image_position: center
     image_size: cover

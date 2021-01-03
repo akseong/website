@@ -56,6 +56,9 @@ h1, h2, h3, h4 {
 }
 
 
+hlt {
+  color: DarkTurquoise !important;
+}
 
 
 /* For 2-column article layout with TOC on right */
@@ -177,7 +180,7 @@ div.puzzle, div.fyi, div.demo, div.note {
     background-position: 15px center;
     min-height: 120px;
     color: #ffffff;
-    background-color: #1C1F2B;
+    background-color: #1C1F2B;     /* #586187  periwinkle-ish for light theme*/
     border: solid 3px #2D3143;
   }
 
@@ -227,10 +230,7 @@ div.note {
 
 
 
-/* --------Blog posts--------- */
-  /* from desiree de leon */
-  
-
+/* --------posts--------- */
 
 .caption {
   color: darkgray;
@@ -257,11 +257,16 @@ strong {
 
 /* keep this after <a> tag styling (overrides in articles) */
 
-.article-style a{  
+.article-style a,
+{  
     color: #F76497;  
 }  
 
-.article-style a:hover {  
+.article-style a:hover,
+#about a:hover,
+#contact a:hover,
+#experience_curr a:hover,
+#experience_old a:hover {  
   color: #DCA0B2 !important;  
   text-decoration: none;
 } 
