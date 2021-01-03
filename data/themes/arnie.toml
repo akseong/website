@@ -6,14 +6,14 @@ name = "arnie"
 light = false
 
 # Primary
-primary = "#F76497"              # link color
+primary = "#F76497"             # pink
 
 # Menu
-menu_primary = "#F2F4F4"
-menu_text = "#1C1F2B"
-menu_text_active = "#F76497"             
-menu_title = "#1C1F2B"           # dark with blue tint
+menu_primary = "#F2F4F4"        # white with very slight blue tint 
+menu_text = "#1C1F2B"           # black with very slight blue tint (navbar background)
+menu_text_active = "#F76497"    # pink
+menu_title = "#1C1F2B"          # black with very slight blue tint (navbar background)
 
 # Home sections
-home_section_odd = "#2D3143"     # lighter dark with slight blue tint
-home_section_even = "#1C1F2B"    # darker dark with slight blue tint
+home_section_odd = "#2D3143"    # lighter home section
+home_section_even = "#1C1F2B"   # darker home section

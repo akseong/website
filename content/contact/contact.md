@@ -29,8 +29,8 @@ content:
 design:
   columns: '2'
   background:
-    image: backgrounds/contactbeer.jpg
-    image_darken: 0.7
+    image: backgrounds/brianatozour-sm.jpg
+    image_darken: 0.5
     image_parallax: true
     image_position: center
     image_size: cover
