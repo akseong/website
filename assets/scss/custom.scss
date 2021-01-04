@@ -1,48 +1,3 @@
-/*----NAV LINK HOVER ANIMATION -----*/
-/*---- from desiree de leon's github -----*/
-.nav-link:hover {
-    color: #F76497 !important;
-  }
-
-/* stroke */
-  
-a.nav-link,
-a.nav-link:after,
-a.nav-link:before {
-  transition: all .5s;
-}
-
-a.nav-link {
-  position: relative;
-}
-
-a.nav-link:after {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  width: 0%;
-  content: '.'; /* make invisible, dot beneath links */
-    color: transparent;
-  background: #F76497;
-    height: 2px;
-}
-
-a.nav-link:hover:after {
-  width: 70%;
-}
-
-
-
-
-
-/* no underline on floating table of contents links */
-#TableOfContents .nav-link:hover:after {
-  width: 0%;
-}
-
-
 /*---------- BASIC STYLING -------------*/
 html {
   scroll-behavior: smooth;
@@ -55,10 +10,143 @@ h1, h2, h3, h4 {
 }
 
 
-/*---------ANCHOR LINKS------------*/
-/*------https://ericbryantphd.com/2020/01/13/add-section-links-in-blogdown/#my-solution-------*/
+/* keep this after <a> tag styling (overrides in articles) */
+/* don't modify behavior of post-landing and project-landing pages */
+.article-style a:hover,
+#about a:hover,
+#contact a:hover,
+#experience_curr a:hover,
+#experience_old a:hover {  
+  color: #DCA0B2 !important;  
+  text-decoration: none;
+} 
 
 
+
+/* make bold fonts bolder */
+strong {
+  font-weight:750;
+}
+
+
+
+/* add custom tag to highlight stuff */
+hlt {
+  color: DarkTurquoise !important;
+}
+
+
+
+/* for images */
+.caption {
+  color: darkgray;
+}
+
+div.img {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  color: darkgrey;  
+}
+
+
+
+
+
+/* --------Articles/Posts--------- */
+
+/* Headers */
+
+.article-style h1 {
+  text-transform: none;
+  padding-top: 2em;
+  padding-bottom: 1em;
+}
+
+.article-style h2,
+.article-style h3 {
+  text-transform: none;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+
+/* fix code scrolling */
+pre {
+  white-space: pre-wrap;
+}
+
+
+
+/* image padding */
+.article-style img{
+  margin-bottom: 5px; 
+}
+
+.article-style .figure{
+  margin-bottom: 10px; 
+}
+
+
+
+
+
+
+
+/* -------About/Home Section-------- */
+  
+.home-section.wg-about { 
+  padding-top: 50px;
+  margin-top: 0px; 
+  /*box-shadow: 0px -50px 50px 50px rgba(252, 252, 252, 1); */
+}
+
+
+
+#about .portrait-title h2 {   
+  margin-top: 50px;   
+  margin-bottom: 30px;    
+ }  
+
+
+
+#about .portrait-title h3 {  
+  text-transform: lowercase;  
+  /*font-family: "Open Sans";  */
+  margin-top: 10px;  
+}  
+
+
+
+
+/*----------   PROJECTS   ----------*/
+
+/*  keeps featured.jpg pictures from destroying even spacing   */
+#projects .stream-item{
+  padding-block-start: 25px;
+  padding-block-end: 25px;
+}
+
+/* MOBILE PROJECTS PAGE */
+/* Adds small gap between feature img and Title */
+#projects .col-12.col-md-6{
+  padding-top: 20px;
+}
+
+
+
+
+
+/*---------  ANCHOR LINKS in articles  ------------*/
+/* add anchors to .Rmd:
+   https://ericbryantphd.com/2020/01/13/add-section-links-in-blogdown/#my-solution */
+/* add anchors to .Rmarkdown 
+   https://gohugo.io/getting-started/configuration-markup#heading-link-example */
+/* used fas fa-hashtag icon for both */
+
+
+/* make anchor link invisible till header is moused over.
+   Then turn link color when anchor is moused over */
 .article-style h1 .fa-hashtag, 
 .article-style h2 .fa-hashtag, 
 .article-style h3 .fa-hashtag, 
@@ -80,25 +168,37 @@ h1, h2, h3, h4 {
   opacity: .75;
 }
 
+.article-style a .fa-hashtag:hover {
+  color: #F76497
+}
+
 .fa-hashtag,
 .fa-hashtag:after,
 .fa-hashtag:before {
-  transition: all 1s;
+  transition: all .25s;
 }
 
 
 
 
 
-hlt {
-  color: DarkTurquoise !important;
+/*------  floating TOC  ------*/
+
+#TableOfContents li a, .toc-top li a {
+	padding: .125rem .5rem;
 }
+
+#TableOfContents {
+	border-left: 1px solid;
+}
+
 
 
 /* For 2-column article layout with TOC on right */
 .article-container {
-	max-width: 1000px;
+	max-width: 800px;
 }
+
 
 /* if using April Hill's single.html layout */
 .col-lg-2ish {
@@ -114,54 +214,48 @@ hlt {
 
 
 
-#TableOfContents li a, .toc-top li a {
-	padding: .125rem .5rem;
+
+
+
+/*----  NAV LINK HOVER ANIMATION  -----*/
+/*---- from desiree de leon's github -----*/
+.nav-link:hover {
+    color: #F76497 !important;
+  }
+
+/* add stroke under navbar links */
+a.nav-link,
+a.nav-link:after,
+a.nav-link:before {
+  transition: all .5s;
 }
 
-#TableOfContents {
-	border-left: 1px solid;
+a.nav-link {
+  position: relative;
 }
 
-
-
-
-
-html, body {
-  scroll-padding-top: 100px;
+a.nav-link:after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 0%;
+  content: ' ';
+  background: #F76497;
+    height: 2px;
 }
 
-
-/* --------Articles/Posts--------- */
-/* Headers */
-
-.article-style h1 {
-  text-transform: none;
-  padding-top: 2em;
-  padding-bottom: 1em;
-}
-
-.article-style h2,
-.article-style h3 {
-  text-transform: none;
-  padding-top: 1em;
-  padding-bottom: 1em;
-}
-
-
-/*---fix code scrolling-- */
-pre {
-  white-space: pre-wrap;
+a.nav-link:hover:after {
+  width: 70%;
 }
 
 
 
-
-
-
-
-
-
-
+/* no underline on floating table of contents links */
+#TableOfContents .nav-link:hover:after {
+  width: 0%;
+}
 
 
 
@@ -170,7 +264,7 @@ pre {
 
 /* -----------div tips------------- */
 
-/* comment div: appears to right of article*/
+/* comment div: appears to right of article */
 div.comment{
   float: right;
   position: absolute;
@@ -180,16 +274,14 @@ div.comment{
   margin-left: 50%;
 }
 
-
-
-
-/* Can't figure out how to make the div disappear */
-/* when it overlaps post content. */
-/* Instead, div.comment won't appear on small screens */
-/* i.e. smaller than 1080px (i.e. most mobile devices) */
+/* Can't figure out how to make the div disappear 
+   when it overlaps post content.
+   Instead, div.comment won't appear on small screens 
+   i.e. smaller than 1080px (i.e. most mobile devices) */
 @media all and (max-width: 1080px) {
   .comment { display: none; }
 }
+
 
 
 /* comments/asides in main post body section (-article-container) */
@@ -235,97 +327,3 @@ div.note {
 }
 
 
-
-
-
-
-
-
-
-
-/* --------posts--------- */
-
-.caption {
-  color: darkgray;
-}
-
-
-div.img {
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  color: darkgrey;  
-}
-
-
-
-/* make bold fonts bolder */
-strong {
-  font-weight:750;
-}
-
-
-/* 
-/* /* Links within blog posts */
-
-/* keep this after <a> tag styling (overrides in articles) */
-
-.article-style a,
-{  
-    color: #F76497;  
-}  
-
-.article-style a:hover,
-#about a:hover,
-#contact a:hover,
-#experience_curr a:hover,
-#experience_old a:hover {  
-  color: #DCA0B2 !important;  
-  text-decoration: none;
-} 
-
-.article-style img{
-  margin-bottom: 5px; 
-}
-
-.article-style .figure{
-  margin-bottom: 10px; 
-}
-
-
-/* -------About/Home Section-------- */
-  
-.home-section.wg-about { 
-  padding-top: 50px;
-  margin-top: 0px; 
-  /*box-shadow: 0px -50px 50px 50px rgba(252, 252, 252, 1); */
-}
-
-#about .portrait-title h2 {   
-  margin-top: 50px;   
-  margin-bottom: 30px;    
- }  
-
-
-#about .portrait-title h3 {  
-  text-transform: lowercase;  
-  /*font-family: "Open Sans";  */
-  margin-top: 10px;  
-}  
-
-
-
-
-/*----------   PROJECTS   ----------*/
-
-/*  keeps featured.jpg pictures from destroying even spacing   */
-#projects .stream-item{
-  padding-block-start: 25px;
-  padding-block-end: 25px;
-}
-
-/* MOBILE PROJECTS PAGE */
-/* Adds small gap between feature img and Title */
-#projects .col-12.col-md-6{
-  padding-top: 20px;
-}
