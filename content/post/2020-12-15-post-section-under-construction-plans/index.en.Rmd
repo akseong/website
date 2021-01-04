@@ -31,14 +31,21 @@ Subject to change, of course!
 # Table of Contents:
 
 ```{r echo=FALSE}
-render_toc <- function(
+make_toc <- function(
   filename, 
   toc_header_name = "Table of Contents",
   base_level = NULL,
-  toc_depth = 3
+  toc_depth = 2
 ) {
-  # credit Garrick Aden-Buie
+  # credit original: Garrick Aden-Buie, render_toc function
   # https://www.garrickadenbuie.com/blog/add-a-generated-table-of-contents-anywhere-in-rmarkdown/
+  # for Rmarkdown html_document, use the original above.
+  # modified to use with **blogdown/Hugo-generated anchor links** 
+  #   in combination with https://ericbryantphd.com/2020/01/13/add-section-links-in-blogdown/#my-solution
+  # modifications: Ignore headers with {-} 
+  #                Ignore punctuation/special chars EXCEPT periods
+  # warning:       Does not handle headers with punctuation marks not used for formatting
+  #                (e.g. double underscore for bold font, )
   x <- readLines(filename, warn = FALSE)
   x <- paste(x, collapse = "\n")
   x <- paste0("\n", x, "\n")
@@ -48,6 +55,8 @@ render_toc <- function(
   }
   x <- strsplit(x, "\n")[[1]]
   x <- x[grepl("^#+", x)]
+  x <- x[!grepl("^# \\{", x)]
+  x <- x[!grepl("\\{-\\}", x)]       # ADDED: ignore headings containing "{-}"
   if (!is.null(toc_header_name)) 
     x <- x[!grepl(paste0("^#+ ", toc_header_name), x)]
   if (is.null(base_level))
@@ -69,17 +78,24 @@ render_toc <- function(
     } else {
       header_text <- gsub("#+\\s+?", "", h)
       header_text <- gsub("\\s+?\\{.+\\}\\s*$", "", header_text) # strip { .tabset ... }
-      header_text <- gsub("^[^[:alpha:]]*\\s*", "", header_text) # remove up to first alpha char
-      header_slug <- paste(strsplit(header_text, " ")[[1]], collapse="-")
-      header_slug <- tolower(header_slug)
+      header_text <- gsub("^[^[:alpha:]]*\\s*", "", header_text) # remove up to first alpha char  
+      # ADDED: strip special characters, then replace multiple spaces with dash
+      # This works with blogdown/hugo-generated anchors
+      # But not basic rmarkdown html_document anchors
+      pre_slug <- gsub("[^-.a-zA-Z0-9 ]", "", header_text)
+      pre_slug <- gsub('---', ' ', pre_slug)  # special case - long dash
+      pre_slug <- gsub('\\s*$', '', pre_slug) # remove trailing spaces
+      pre_slug <- gsub('\\s+', '-', pre_slug)
+      header_slug <- tolower(pre_slug) 
     }
-    paste0(strrep(" ", level * 4), "- [", header_text, "](#", header_slug, ")")
+    if (header_text != ""){
+      paste0(strrep(" ", level * 4), "- [", header_text, "](#", header_slug, ")")
+    }
   })
   x <- x[x != ""]
   knitr::asis_output(paste(x, collapse = "\n"))
 }
-
-render_toc(filename="index.en.Rmd")
+make_toc(filename="index.en.Rmd")
 ```
 
 
