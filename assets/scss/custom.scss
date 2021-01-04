@@ -51,9 +51,43 @@ html {
 
 h1, h2, h3, h4 {
   text-transform: lowercase;
-  /*color: #a8dadc !important; /* light blue */  
   color: DarkTurquoise !important;
 }
+
+
+/*---------ANCHOR LINKS------------*/
+/*------https://ericbryantphd.com/2020/01/13/add-section-links-in-blogdown/#my-solution-------*/
+
+
+.article-style h1 .fa-hashtag, 
+.article-style h2 .fa-hashtag, 
+.article-style h3 .fa-hashtag, 
+.article-style h4 .fa-hashtag,
+.article-style h5 .fa-hashtag,
+.article-style h6 .fa-hashtag{
+  font-size: 0.8em;
+  color: DarkTurquoise;
+  opacity: 0;
+}
+
+.article-style h1:hover .fa-hashtag, 
+.article-style h2:hover .fa-hashtag, 
+.article-style h3:hover .fa-hashtag, 
+.article-style h4:hover .fa-hashtag, 
+.article-style h5:hover .fa-hashtag, 
+.article-style h6:hover .fa-hashtag{
+  font-size: .8em;
+  opacity: .75;
+}
+
+.fa-hashtag,
+.fa-hashtag:after,
+.fa-hashtag:before {
+  transition: all 1s;
+}
+
+
+
 
 
 hlt {
@@ -97,8 +131,8 @@ html, body {
 }
 
 
-/* --------Blog posts--------- */
-/* Headers within blogs */
+/* --------Articles/Posts--------- */
+/* Headers */
 
 .article-style h1 {
   text-transform: none;
@@ -203,28 +237,7 @@ div.note {
 
 
 
-/*---------ANCHOR LINKS------------*/
-/*------https://ericbryantphd.com/2020/01/13/add-section-links-in-blogdown/#my-solution-------*/
-.section-anchor {
-  font-size: 0.5em;
-  vertical-align: super;
-}
 
-/* keep this after .section-anchor (overrides color) */
-.fa-link{
-  color: #666369;
-}
-.fa-link:hover {
-  color: #F76497;
-}
-
-/* stroke */
-  
-.fa-link,
-.fa-link:after,
-.fa-link:before {
-  transition: all .25s;
-}
 
 
 
