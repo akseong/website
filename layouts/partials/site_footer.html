@@ -6,6 +6,12 @@
   </p>
   {{ end }}
 
+  <!-- Init code folding -->
+  <!-- https://www.jepusto.com/code-folding-update/ -->
+  {{ partial "article_footer_js.html" . }}
+  
+  
+
   <p class="powered-by">
     {{ with site.Copyright }}{{ replace . "{year}" now.Year | markdownify}} &middot; {{ end }}
 

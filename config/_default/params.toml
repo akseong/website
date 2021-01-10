@@ -28,6 +28,24 @@ font = "arnie"
 # Sizes: XS (extra small), S (small), M (medium), L (large - DEFAULT), XL (extra large)
 font_size = "L"
 
+
+############################
+## Code folding
+## https://www.jepusto.com/code-folding-update/
+############################
+
+# Set to true to disable code folding
+disable_codefolding = false
+# Set to "hide" or "show" all codes by default
+codefolding_show = "show"
+# Set to true to exclude the "Show/hide all" button
+codefolding_nobutton = true
+
+
+
+
+
+
 ############################
 ## Basic Info
 ############################
