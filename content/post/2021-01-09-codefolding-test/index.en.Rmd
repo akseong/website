@@ -1,0 +1,28 @@
+---
+title: Codefolding Test
+author: Arnie
+date: '2021-01-09'
+slug: codefolding-test
+categories: []
+tags: []
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2021-01-09T23:23:17-08:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+Maybe it only works with .Rmd files?
+
+```{r}
+library(ggplot2)
+```
+
+
+
+Er, nope.
