@@ -42,7 +42,7 @@ design:
   columns: "2"
   background:
     image: backgrounds/alexanderdummer-sm.jpg
-    image_darken: 0.6
+    image_darken: 0.7
     image_parallax: true
     image_position: center
     image_size: cover
