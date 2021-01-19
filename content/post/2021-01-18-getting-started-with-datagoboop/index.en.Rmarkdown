@@ -61,7 +61,7 @@ There are a few other data sonification packages for R, such as
 
 (In particular, I like the way `audiolyzr` [sounds!](https://www.r-bloggers.com/2013/01/audiolyzr-data-sonification-with-r/))
 
-The main difference between these packages and `datagoboop` is that `datagoboop` includes several "built-in" functions for sonification, but also allows users to build "audio plots" piece by piece by providing a higher level of control and modular functions.
+The main difference between these packages and `datagoboop` is that `datagoboop` includes several built-in sonification versions of common plots, but also allows users to build audio plots piece by piece by providing a higher level of control and modular functions.
 
 
 
