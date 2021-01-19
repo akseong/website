@@ -256,14 +256,14 @@ wplay(c(audiohist, rev(audiohist)), file_path = "index.en.Rmark/violin.wav")
 
 # Next up: built-in audio plot analogues
 
-Next post will cover some of the basic plot types built-into `datagoboop`, for example, a scatterplot.
+Next post will cover some of the basic plot types built-into `datagoboop`, for example, a scatterplot, in which the lower register indicates rising values in the \$x\$-variable, and the higher register indicates the value of the \$y\$-variable.
 
 
 ```r
 library(ggplot2)
-ggplot(airquality, aes(y=Temp, x = Ozone, color=factor(Month), size = Wind)) + 
+ggplot(mtcars, aes(y=disp, x = mpg, size = factor(gear))) + 
   geom_point(alpha = 0.25) + 
-  labs(title = "air quality dataset")
+  labs(title = "mtcars")
 ```
 
 <img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-7-1.png" width="672" />
@@ -271,15 +271,12 @@ ggplot(airquality, aes(y=Temp, x = Ozone, color=factor(Month), size = Wind)) +
 
 
 ```r
-airq <- sonify_scatter(
-  data = airquality,
-  x_var = "Ozone",
-  y_var = "Temp",
-  order_var = "byrow",
-  factor_var = "Month",
-  duration = "Wind",
-  dur_scaling = "binned 4 exp 2 rev"
-)
+mtcars_audio <- sonify_scatter(
+    data = mtcars,
+    x_var = "mpg",
+    y_var = "disp",
+    factor_var = "gear"
+  )
 # output suppressed; shows progress bar in console
 ```
 
@@ -287,11 +284,11 @@ airq <- sonify_scatter(
 
 
 ```r
-wplay(airq, file_path = "index.en.Rmark/airqual.wav")
+wplay(mtcars_audio, file_path = "index.en.Rmark/mtc.wav")
 ```
 
 <audio controls="">
-<source src="index.en.Rmark/airqual.wav" type="audio/wav"/>
+<source src="index.en.Rmark/mtc.wav" type="audio/wav"/>
 </audio>
 
 
