@@ -60,16 +60,20 @@ div.img {
 .article-style h1 {
   text-transform: none;
   padding-top: 2em;
-  padding-bottom: 1em;
+  padding-bottom: .5em;
 }
 
 .article-style h2,
-.article-style h3 {
+.article-style h3,
+.article-style h4 {
   text-transform: none;
-  padding-top: 1em;
-  padding-bottom: 1em;
+  padding-top: .5em;
+  padding-bottom: .25em;
 }
 
+.pt-3 h1 {
+  text-transform: none;
+}
 
 /* fix code scrolling */
 pre {
