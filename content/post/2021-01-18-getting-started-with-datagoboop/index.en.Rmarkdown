@@ -222,10 +222,15 @@ for (i in 1:length(durs)){
 ```
 
 
+The histogram is reproduced below for purposes of comparison.
+
 ```{r}
 wplay(audiohist, file_path = "index.en.Rmark/hist.wav")
 ```
 
+```{r, echo=FALSE}
+hist(y, breaks = breaks)
+```
 
 
 ## Audio Violinplot

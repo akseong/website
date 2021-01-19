@@ -229,6 +229,8 @@ for (i in 1:length(durs)){
 ```
 
 
+The histogram is reproduced below for purposes of comparison.
+
 
 ```r
 wplay(audiohist, file_path = "index.en.Rmark/hist.wav")
@@ -238,6 +240,7 @@ wplay(audiohist, file_path = "index.en.Rmark/hist.wav")
 <source src="index.en.Rmark/hist.wav" type="audio/wav"/>
 </audio>
 
+<img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-6-1.png" width="672" />
 
 
 ## Audio Violinplot
@@ -269,7 +272,7 @@ ggplot(mtcars, aes(y=disp, x = mpg, size = factor(gear))) +
   labs(title = "mtcars")
 ```
 
-<img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+<img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 
 
 
