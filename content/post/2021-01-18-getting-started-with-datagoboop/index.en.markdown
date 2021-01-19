@@ -16,7 +16,7 @@ authors: []
 lastmod: '2021-01-18T22:53:20-08:00'
 featured: no
 image:
-  caption: ''
+  caption: '[Nicholas-Rougeux-the-four-seasons-color](https://www.c82.net/offthestaff/?id=4)'
   focal_point: ''
   preview_only: no
 projects: []
@@ -242,7 +242,8 @@ wplay(audiohist, file_path = "index.en.Rmark/hist.wav")
 
 ## Audio Violinplot
 
-I like the overall effect of the histogram --- sort of like an island emerging out of the water.  But the tails are _very_ hard to hear.  So, let's try a violin plot, which we can do simply by reversing the sound vector and placing them back to back.
+I like the overall effect of the histogram --- sort of like an island emerging out of the water.  But the tails are _very_ hard to hear.  So, let's try a violin plot, which we can do simply by reversing the sound vector and placing it back to back.
+
 
 
 ```r
@@ -252,6 +253,8 @@ wplay(c(audiohist, rev(audiohist)), file_path = "index.en.Rmark/violin.wav")
 <audio controls="">
 <source src="index.en.Rmark/violin.wav" type="audio/wav"/>
 </audio>
+
+Fortuitously, you can hear a progression in there that sounds --- just for a moment --- like the opening to Debussy's _[La Fille Aux Cheveux De Lin](https://www.youtube.com/watch?v=wv8iHEM4g7Q&ab_channel=Adagietto)_.  
 
 
 # Next up: built-in audio plot analogues
@@ -283,6 +286,8 @@ mtcars_audio <- sonify_scatter(
 
 
 
+
+
 ```r
 wplay(mtcars_audio, file_path = "index.en.Rmark/mtc.wav")
 ```
@@ -294,7 +299,6 @@ wplay(mtcars_audio, file_path = "index.en.Rmark/mtc.wav")
 
 # A small parting gift
 
-Try running it!
 
 
 ```r
