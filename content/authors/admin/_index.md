@@ -53,7 +53,7 @@ When I'm not doing stats, I enjoy hiking, skiing, poetry, teaching my sons scien
 
 Before pursuing stats and data science, I was a poet and college English instructor; if you like, you can see a poem [here](https://www.montrealpoetryprize.com/poems/sonnet-for-the-tiny-neutron).
 
-If you are interested in mixing data and music, check out [`datagoboop`](https://github.com/akseong/datagoboop#datagoboop), an R package for data sonification that I wrote with fellow students [Jaylen Lee](https://www.ics.uci.edu/~jaylenl/) and [Sebastian Waz](https://lohdownonscience.com/meet-the-hive/sebastian-waz/).  If you make something with it, I'd love to hear what you create!
+If you are interested in mixing data and music, check out [`datagoboop`](https://github.com/akseong/datagoboop#datagoboop), an R package for data sonification that I wrote with fellow students [Jaylen Lee](https://www.ics.uci.edu/~jaylenl/) and [Sebastian Waz](http://sebwaz.com/).  If you make something with it, I'd love to hear what you create!
 
 
 
