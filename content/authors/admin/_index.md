@@ -29,7 +29,7 @@ role: PhD student in Statistics
 social:
 - icon: envelope
   icon_pack: fas
-  link: contact/
+  link: mailto:akseong@uci.edu
  # - icon: twitter
  #   icon_pack: fab
  #   link: https://twitter.com/ArnoldSeong
@@ -39,9 +39,9 @@ social:
 - icon: github
   icon_pack: fab
   link: https://github.com/akseong
- #- icon: linkedin
- #  icon_pack: fab
- #  link: https://www.linkedin.com/
+- icon: linkedin
+  icon_pack: fab
+  link: https://www.linkedin.com/in/arnieseong
 superuser: true
  # title: Arnold Seong
 ---
