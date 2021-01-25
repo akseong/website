@@ -57,7 +57,7 @@ description = "former poet, current Stats PhD student"
 # Enable source code highlighting? true/false
 # Documentation: https://sourcethemes.com/academic/docs/writing-markdown-latex/#highlighting-options
 highlight = true
-highlight_languages = ["r","latex", "matlab","c++","python","shell"]  # Add support for highlighting additional languages
+highlight_languages = ["r","latex", "matlab","c++","python","shell", "html", "css"]  # Add support for highlighting additional languages
 highlight_style = "lioshi"  # For supported styles, see https://cdnjs.com/libraries/highlight.js/
 
 # Enable LaTeX math rendering? true/false
@@ -267,7 +267,7 @@ plugins_js  = []
 ## Marketing
 ############################
 [marketing]
-  google_analytics = ""
+  google_analytics = "UA-186125007-1"
   google_tag_manager = ""
 
 ############################
