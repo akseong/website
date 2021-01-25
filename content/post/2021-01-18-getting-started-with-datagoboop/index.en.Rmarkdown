@@ -13,7 +13,7 @@ tags:
 subtitle: ''
 summary: ''
 authors: []
-lastmod: '2021-01-18T22:53:20-08:00'
+lastmod: '2021-01-25T22:53:20-08:00'
 featured: no
 image:
   caption: '[Nicholas-Rougeux-the-four-seasons-color](https://www.c82.net/offthestaff/?id=4)'
@@ -45,10 +45,9 @@ colorhtml <- function(x, color="MediumOrchid") {
 
 # Introducing `datagoboop`
 
-`datagoboop` is an R package for data sonification, or the audio version of data visualization.  This project started off while I was dreaming of representing data as a symphony --- our ears can with some training pick out each instrument in a symphony orchestra (maybe 15-20 instruments), whereas representing more than 4 or 5 variables in one plot usually becomes somewhat cumbersome.
+`datagoboop` is an R package for data sonification, or the audio version of data visualization.  This project started off while I was dreaming of representing data as a symphony --- our ears can with some training pick out each instrument in a symphony orchestra (maybe 15-20 instruments), whereas representing more than 4 or 5 variables in one plot is usually quite chaotic.  
 
-Turns out a library of high-quality audio files can get large fast, so most output from `datagoboop` sounds more like 8-bit video game music :stuck_out_tongue_winking_eye:.  But we still think it sounds pretty neat!
-
+I asked [Sebastian Waz](http://sebwaz.com/) and [Jaylen Lee](https://www.ics.uci.edu/~jaylenl/) to join me in putting together this first pass at an R package for data sonification.  While we haven't quite gotten to symphonic sound --- turns out a library of high-quality audio files gets large fast, so most output from `datagoboop` sounds more like 8-bit video game music :stuck_out_tongue_winking_eye: --- we still think it sounds pretty neat!
 
 
 ## Why `datagoboop`
@@ -59,7 +58,7 @@ There are a few other data sonification packages for R, such as
 + [`audiolyzr`](https://cran.r-project.org/web/packages/audiolyzR/index.html)
 + [`playitbyr`](http://playitbyr.org/)
 
-(In particular, I like the way `audiolyzr` [sounds!](https://www.r-bloggers.com/2013/01/audiolyzr-data-sonification-with-r/))
+(`audiolyzr` in particular [sounds pretty neat!](https://www.r-bloggers.com/2013/01/audiolyzr-data-sonification-with-r/))
 
 The main difference between these packages and `datagoboop` is that `datagoboop` includes several built-in sonification versions of common plots, but also allows users to build audio plots piece by piece by providing a higher level of control and modular functions.
 
@@ -72,6 +71,7 @@ if (!requireNamespace("devtools")) install.packages('devtools')
 devtools::install_github("akseong/datagoboop")
 ```
 
+(You can also see [the repo here](https://github.com/akseong/datagoboop))
 
 
 
@@ -91,13 +91,40 @@ Note that `datagoboop`'s implementation uses the equation above, so the (seeming
 
 
 
+
+## functions: `cplay()`, `wplay()`
+
+To actually play audio, you'll need to use either
++ `cplay()`: audio playback with console controls ("control playback")
++ `wplay()`: audio playback better suited for .Rmd documents knitted to HTML.
+    + <hlt>in console,</hlt> `wplay()` institutes a system timeout during playback.
+        - use console controls instead: argument `wplay_controls = TRUE`
+        - suppress playback completely: argument `wplayback = FALSE` 
+    + <hlt> when knitting to html,</hlt> `wplay()` saves the audio output as a `.wav` (named with timestamp), in a folder with the same name as your .Rmd file. 
+
+<div class=fyi>
+
+Set the optional arguments `wplay_controls` and `wplayback` for your entire R session by creating new variables with the same names.  
+
+For example, you can just create a new variable by executing `wplayback <- FALSE` to suppress playback globally from calls to `wplay()`, for example when you are executing multiple code chunks.
+
+Just set it to `TRUE` when you want to hear it again!
+</div>
+
+
+
+
+
 ## function: `note()`
 
 ```{r note}
 library(datagoboop)
 
 midC <- note(40)
-wplay(midC, file_path = "index.en.Rmark/midC.wav")
+wplay(
+  midC, 
+  file_path = "index.en.Rmark/midC.wav"
+  )
 ```
 
 `note()` is the most basic function in `datagoboop` --- most other functions in `datagoboop` are built on top of it.  The only required argument is a `pkey` (piano key); output is a .wav-format vector.
@@ -122,40 +149,72 @@ midC_bounce <- note(
   dur = 2, 
   inst_lab = "piano",
   decay = TRUE,
-  decay_rate = 6)
+  decay_rate = 6
+  )
 
-wplay(midC_bounce, file_path = "index.en.Rmark/midC_bounce.wav")
+wplay(
+  midC_bounce, 
+  file_path = "index.en.Rmark/midC_bounce.wav"
+  )
 ```
 
 
 
+## functions: `notes()` \& `chords()`
 
-## functions: `cplay()`, `wplay()`
+There is also a vectorized version `notes()` ....
 
-To actually play audio, you'll need to use either
-+ `cplay()`: audio playback with console controls (name intended to evoke "control playback")
-+ `wplay()`: audio playback more suited for .Rmd documents knitted to HTML 
-    + `wplay()`'s default behavior in console is to institute a system timeout while playback is ongoing.  
-    + `wplay()`'s default behavior __when knitting an .Rmd to HTML__ is to save the audio output as a `.wav` (named with timestamp), in a folder with the same name as your .Rmd file. 
+```{r notes_chord}
+pkeys <- 52:64      # piano keys for a 1 octave chromatic scale
+vols <- 1:13 / 13   # increasing volume
+durs <- 12:24 / 96  # slowing down
 
-<div class=fyi>
+chrom <- notes(
+  pkey = pkeys, 
+  vol = vols, 
+  dur = durs,
+  decay = TRUE,
+  progbar = FALSE
+  )
 
-+ you can set `wplayback = FALSE` in the parent environment (i.e. just create a new variable `wplayback = FALSE`) to suppress all playback from calls to `wplay()`, for example when you are executing multiple code chunks.  Just set it to `TRUE` when you want to hear it again!
-+ you can also set the `wplayback` argument in the function arguments for an individual call to `wplay()`.
-</div>
+wplay(
+  chrom,
+  file_path = "index.en.Rmark/chrom.wav"
+  )
+```
+
+
+.... and a single chord function `chord()`
+
+```{r chord}
+chord_prog <- c(
+  chord(pkey = c(50, 54, 57), decay = TRUE), 
+  chord(pkey = c(50, 55, 59), decay = TRUE), 
+  chord(pkey = c(50, 54, 57), decay = TRUE), 
+  chord(pkey = c(49, 55, 57), decay = TRUE), 
+  chord(pkey = c(50, 54, 57), decay = TRUE)
+)
+
+wplay(
+  chord_prog,
+  file_path = "index.en.Rmark/chords.wav"
+)
+```
 
 
 
 # Example: audio histogram / violinplot
 
-One of the first things we did after creating some of the basic playback functions was to make an audio version of a histogram.  A little modification turns it into something like a violinplot, which I think may convey the general shape a little more clearly.
+One of the first things we did after creating some of the basic playback functions was to try making an audio version of a histogram.  A little modification turns it into something like a violinplot, which I think may convey the general shape a little more clearly.
 
+
+This is pretty different from the [built-in function `sonify_hist()` below](#function-sonify_hist), but the idea is to walk through construction of an audioplot using `datagoboop`'s ground-level functions.
 
 Overall, we're going to
 
-1. map histogram breakpoints to pitch;
-1. map counts/bar heights to duration;
-1. scale volume to counts/bar heights.  (Volume can be a bit tricky, because volume is a combination of different sound wave characteristics --- not just amplitude.  For example, higher frequencies/pitches sound louder than lower frequencies with the same amplitude)
+1. <hlt> x-axis \$\mapsto\$ pitch: </hlt> map histogram breakpoints to pitch;
+1. <hlt> y-axis \$\mapsto\$ duration: </hlt> map counts/bar heights to duration;
+1. <hlt> y-axis \$\mapsto\$ volume: </hlt> scale volume to counts/bar heights.  
 
 I think it's a bit clearer when we start off hearing the highest count bars, and then allow the lower count bars to gradually emerge (so we'll do that :+1:).
 
@@ -170,14 +229,16 @@ y <- rnorm(1000, 40, 5)
 breaks = seq(
   floor(min(y)), 
   floor(max(y)) + 1, 
-  length.out = 16)
-hist_inf <- hist(y, breaks = breaks)
+  length.out = 16
+  )
+hist_info <- hist(y, breaks = breaks)
 ```
 
 
+Next, we'll select a C-major scale to map the breaks to.  
 
-Next, we'll select a C-major scale to map the breaks to.  Note that only every other note is used to avoid dissonance.  (There will still be some!)
-
++ `major_scale()` generates a vector of piano key numbers corresponding to a major scale starting at the specified tonic and number of octaves.
++ The second line selects every other note in order to avoid dissonance.  (There will still be some!)
 
 ```{r}
 Cmajor <- major_scale(tonic_pkey = 40, n_octaves = 4)
@@ -197,35 +258,53 @@ wave_length <- total_dur*fs
 
 # scale the durations and volume to reflect counts
 # i.e. the longest note is the bin with the highest counts
-vols <- (hist_inf$counts)/(max(hist_inf$counts))
-durs <- vols * total_dur
+scaling <- hist_info$counts / max(hist_info$counts)
+vols <- scaling + .25
+durs <- scaling * total_dur
 fill_durs <- wave_length - durs*fs
 ```
 
 
+<div class=fyi>
+
+Representing variables using volume can be a bit tricky, because volume is a combination of different sound wave characteristics --- not just amplitude.  For example, higher frequencies/pitches sound louder than lower frequencies with the same amplitude.
+
+In the code above, I've also added a small nugget `+ 0.25` so that the volume doesn't get too quiet.
+</div>
+
+
 Last, we construct each note in a loop, and sum each note's sound wave together to construct the audio histogram's sound wave.
 
-_Note:_ summing note vectors to construct the sound wave is OK even though the vectors will exceed [-1, 1] because wplay() normalizes the soundwave to [-1, 1]
+
 
 ```{r}
 audiohist <- rep(0, wave_length)
 for (i in 1:length(durs)){
   wave_i <- c(
-    rep(0, fill_durs[i]),# notes begin with silence
-    note(
-      pkey = pkeys[i], 
-      dur = durs[i], 
-      vol = vols[i]
-    ))
+    # notes begin with silence
+    rep(0, fill_durs[i]),
+    # audible portion of note 
+    note(pkey = pkeys[i], 
+         dur = durs[i], 
+         vol = vols[i])
+    )
   audiohist <- audiohist + wave_i[1:wave_length]
 }
 ```
 
+<div class=note>
 
-The histogram is reproduced below for purposes of comparison.
+Summing note vectors to construct the sound wave is OK even though the vectors will exceed [-1, 1] because `wplay()` normalizes the .wav vector prior to save/playback.
+</div
+
+
+The same histogram is shown again below.
 
 ```{r}
-wplay(audiohist, file_path = "index.en.Rmark/hist.wav")
+wplay(
+  audiohist, 
+  file_path = "index.en.Rmark/hist.wav"
+  )
 ```
 
 ```{r, echo=FALSE}
@@ -239,10 +318,45 @@ I like the overall effect of the histogram --- sort of like an island emerging o
 
 
 ```{r}
-wplay(c(audiohist, rev(audiohist)), file_path = "index.en.Rmark/violin.wav")
+wplay(
+  c(audiohist, rev(audiohist)), 
+  file_path = "index.en.Rmark/violin.wav"
+  )
 ```
 
-Fortuitously, you can hear a progression in there that sounds --- just for a moment --- like the opening to Debussy's _[La Fille Aux Cheveux De Lin](https://www.youtube.com/watch?v=wv8iHEM4g7Q&ab_channel=Adagietto)_.  
+(A small happy accident if you listen closely: around 5 seconds in, you can hear a progression in there that sounds --- just for a moment --- like the opening to Debussy's _[La Fille Aux Cheveux De Lin](https://www.youtube.com/watch?v=wv8iHEM4g7Q&ab_channel=Adagietto)_)  
+
+
+<div class=note>
+
+The optional argument `file_path` is specified in calls to `wplay()` in this post in order to place the .wav file in the folder containing files for this post (see the [previous note](#functions-cplay-wplay)).
+</div>
+
+
+## function: `sonify_hist()`
+`datagoboop` also has a built-in audio histogram function:
+
++ counts/bar height \$\mapsto\$ pitch
++ x-axis \$\mapsto\$ time
++ static bursts mark quartiles
+
+
+```{r sonify_hist}
+# requires dataframe as input
+df <- data.frame(y)
+wplay(
+  sonify_hist(
+    data = df, 
+    var = "y", 
+    breaks = 16, 
+    duration = 5
+    ),
+  file_path = "index.en.Rmark/sonifyhist.wav"
+  )
+```
+
+
+
 
 
 # Next up: built-in audio plot analogues
@@ -251,7 +365,14 @@ Next post will cover some of the basic plot types built-into `datagoboop`, for e
 
 ```{r, message = FALSE}
 library(ggplot2)
-ggplot(mtcars, aes(y=disp, x = mpg, size = factor(gear))) + 
+ggplot(
+  mtcars, 
+  aes(
+    y=disp, 
+    x = mpg, 
+    size = factor(gear)
+    )
+  ) + 
   geom_point(alpha = 0.25) + 
   labs(title = "mtcars")
 ```
@@ -259,10 +380,10 @@ ggplot(mtcars, aes(y=disp, x = mpg, size = factor(gear))) +
 
 ```{r, results = "hide", messages = TRUE}
 mtcars_audio <- sonify_scatter(
-    data = mtcars,
-    x_var = "mpg",
-    y_var = "disp",
-    factor_var = "gear"
+  data = mtcars,
+  x_var = "mpg",
+  y_var = "disp",
+  factor_var = "gear"
   )
 # output suppressed; shows progress bar in console
 ```
@@ -272,16 +393,27 @@ mtcars_audio <- sonify_scatter(
 
 
 ```{r}
-wplay(mtcars_audio, file_path = "index.en.Rmark/mtc.wav")
+wplay(
+  mtcars_audio, 
+  file_path = "index.en.Rmark/mtc.wav"
+  )
 ```
+
+
 
 
 # A small parting gift
 
+```{r bach, results = 'hide'}
+bp2 <- bach()
 
-```{r bach, eval = FALSE}
-bp2_stereo <- bach(stereo=TRUE)
-cplay(bp2_stereo)
+```
+
+```{r}
+wplay(
+  bp2,
+  file_path = "index.en.Rmark/bach.wav"
+  )
 ```
 
 
