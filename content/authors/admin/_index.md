@@ -29,7 +29,7 @@ role: PhD student in Statistics
 social:
 - icon: envelope
   icon_pack: fas
-  link: mailto:akseong@uci.edu
+  link: /contact/
  # - icon: twitter
  #   icon_pack: fab
  #   link: https://twitter.com/ArnoldSeong

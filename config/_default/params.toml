@@ -57,7 +57,7 @@ description = "former poet, current Stats PhD student"
 # Enable source code highlighting? true/false
 # Documentation: https://sourcethemes.com/academic/docs/writing-markdown-latex/#highlighting-options
 highlight = true
-highlight_languages = ["r","latex", "matlab","c++","python","shell", "html", "css"]  # Add support for highlighting additional languages
+highlight_languages = ["r","latex", "matlab","c++","python","shell", "html", "css", "scss"]  # Add support for highlighting additional languages
 highlight_style = "lioshi"  # For supported styles, see https://cdnjs.com/libraries/highlight.js/
 
 # Enable LaTeX math rendering? true/false
@@ -88,12 +88,12 @@ show_related = {docs = false, page = false, post = false, project = false, publi
 ############################
 
 # Enter contact details (optional). To hide a field, clear it to "".
-email = "akseong@uci.edu"
-phone = "949 864 6632"
+email = ""
+phone = ""
 
 # Address
 # For country_code, use the 2-letter ISO code (see https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2 )
-address = {street = "UC Irvine", city = "", region = "", postcode = "Donald Bren Hall 2013", country = "", country_code = ""}
+address = {}#{street = "UC Irvine", city = "", region = "", postcode = "Donald Bren Hall 2013", country = "", country_code = ""}
 
 # Geographic coordinates
 # To get your coordinates, right-click on Google Maps and choose "What's here?". The coords will show up at the bottom.
@@ -104,7 +104,7 @@ directions = ""
 
 # Office hours
 # A list of your office hours. To remove, set to an empty list `[]`.
-office_hours = ["Office hours on course website or by appointment"]
+office_hours = []#["Office hours on course website or by appointment"]
 
 # Enter an optional link for booking appointments (e.g. calendly.com).
 appointment_url = ""   #"https://calendly.com"
