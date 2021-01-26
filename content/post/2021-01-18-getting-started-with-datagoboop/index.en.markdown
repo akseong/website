@@ -401,10 +401,11 @@ ggplot(
   aes(
     y=disp, 
     x = mpg, 
-    size = factor(gear)
+    size = factor(gear),
+    color = factor(gear)
     )
   ) + 
-  geom_point(alpha = 0.25) + 
+  geom_point(alpha = 0.4) + 
   labs(title = "mtcars")
 ```
 
@@ -417,7 +418,9 @@ mtcars_audio <- sonify_scatter(
   data = mtcars,
   x_var = "mpg",
   y_var = "disp",
-  factor_var = "gear"
+  factor_var = "gear",
+  volume = "gear",
+  vol_scaling = "binned 3 exp 2"
   )
 # output suppressed; shows progress bar in console
 ```
