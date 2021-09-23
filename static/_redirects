@@ -1,1 +1,3 @@
 http://arnie.rbind.io/*    https://arnie.rbind.io/:splat  301!
+https://aks.netlify.app/*  https://arnie.rbind.io/:splat  301!
+http://aks.netlify.app/*   https://arnie.rbind.io/:splat  301!
