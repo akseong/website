@@ -27,6 +27,18 @@ date_format: Jan 2006
 experience:
 
 
+  - company: Amazon Alexa, Automatic Speech Recognition
+    company_url: "https://developer.amazon.com/en-US/alexa/alexa-skills-kit/asr"
+    date_end: "2021-09-10"
+    date_start: "2021-06-05"
+    description: |-
+      * Designed Bayesian Additive Regression Tree model predicting whether customers will engage in a business-critical behavior.  Achieved <hlt> 75\% higher precision and 2\% higher recall </hlt> over existing ML models.
+      * Analyzed key customer behaviors using large, distributed database.
+      * Built inferential models to identify customer segments and business domains where ASR improvement could have highest impact.
+    location: Sunnyvale, CA / Remote
+    title: Data Scientist Intern
+    
+
   - company: UC Irvine, Statistics Dept.
     company_url: "https://stat.uci.edu"
     date_end: ""
