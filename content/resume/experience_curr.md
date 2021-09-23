@@ -13,7 +13,7 @@ headless: true
 weight: 40
 
 title: \> 2017 <h3> statistician & data scientist </h3>
-subtitle: Download my [resumé <i class="fa fa-download" aria-hidden="true"></i>](/media/akseong_resume_2021.pdf)
+subtitle: Download my [resumé <i class="fa fa-download" aria-hidden="true"></i>](/media/akseong_resume_2022.pdf)
 
 # Date format for experience
 #   Refer to https://wowchemy.com/docs/customization/#date-format
