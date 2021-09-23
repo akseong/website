@@ -42,15 +42,25 @@ experience:
   - company: UC Irvine, Statistics Dept.
     company_url: "https://stat.uci.edu"
     date_end: ""
-    date_start: "2017-09-01"
+    date_start: "2019-09-01"
     description: |-
       * Ongoing work in Bayesian model selection and functional data analysis.
       * Developed methods for local inference (multiple testing problem) in neuroimaging data.
       * [Data Science Initiative](https://datascience.uci.edu/) workshop instructor
     location: Irvine, CA
-    title: PhD student & Graduate Student Researcher
+    title: PhD student / Graduate Student Researcher
+
+
+  - company: UC Irvine, Statistics Dept.
+    company_url: "https://stat.uci.edu"
+    date_end: "2019-06-20"
+    date_start: "2017-09-01"
+    description: |-
+      * Held weekly discussion sections and office hours; substitute lecture as needed.
+      * Wrote HW and exam questions; graded.
+    location: Irvine, CA
+    title: MS student / Graduate Teaching Assistant
     
-  
 
   - company: EXACTA MEDIA
     company_url: "https://www.exactamedia.com/"
@@ -65,17 +75,7 @@ experience:
     title: Statistical Consultant (contract)
     
     
-  - company: UC Irvine, Statistics Dept.
-    company_url: "https://stat.uci.edu"
-    date_end: ""
-    date_start: "2017-09-01"
-    description: |-
-      * Held weekly discussion sections and office hours; substitute lecture as needed.
-      * Wrote HW and exam questions; graded.
-      * Assisted implementation of flipped classroom structure.
-    location: Irvine, CA
-    title: Graduate Teaching Assistant
-    
+
     
 design:
   columns: '2'
