@@ -4,7 +4,7 @@ education:
   courses:
   - course: PhD in Statistics
     institution: University of California, Irvine
-    year: 2022 (projected)
+    year: 2023 (projected)
   - course: MS in Statistics
     institution: University of California, Irvine
     year: 2019
